@@ -16,19 +16,11 @@ export default function ReasonForBookingChart() {
 
           if (!customLabel) {
             ;(chart as any).customLabel = customLabel = chart.renderer
-              .label(
-                'Total<br/><strong>2 877 820</strong>',
-                0,
-                0,
-                'rect',
-                0,
-                0,
-                true
-              )
+              .label('', 0, 0, 'rect', 0, 0, true)
               .css({
                 color: '#000',
                 textAlign: 'center',
-                fontWeight: 'bold'
+                fontWeight: ''
               })
               .attr({
                 align: 'center'
@@ -86,12 +78,12 @@ export default function ReasonForBookingChart() {
     series: [
       {
         type: 'pie',
-        name: 'Registrations',
+        name: 'Motivos',
         data: [
-          { name: 'EV', y: 23.9, color: '#818cf8' },
-          { name: 'Hybrids', y: 12.6, color: '#4f46e5' },
-          { name: 'Diesel', y: 37.0, color: '#3730a3' },
-          { name: 'Petrol', y: 26.4, color: '#8b5cf6' }
+          { name: 'Lazer / Turismo', y: 54.2, color: '#4f46e5' },
+          { name: 'Viagem a Trabalho', y: 28.6, color: '#818cf8' },
+          { name: 'Eventos', y: 10.4, color: '#8b5cf6' },
+          { name: 'Outros', y: 6.8, color: '#3730a3' }
         ]
       }
     ]

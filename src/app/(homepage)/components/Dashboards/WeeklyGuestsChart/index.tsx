@@ -14,43 +14,43 @@ export default function WeeklyGuestsChart() {
   const data = [
     {
       subject: 'Segunda',
-      A: 120,
+      A: 60,
       B: 110,
       fullMark: 150
     },
     {
       subject: 'Terça',
-      A: 98,
+      A: 90,
       B: 130,
       fullMark: 150
     },
     {
       subject: 'Quarta',
-      A: 86,
+      A: 85,
       B: 130,
       fullMark: 150
     },
     {
       subject: 'Quinta',
-      A: 99,
+      A: 70,
       B: 100,
       fullMark: 150
     },
     {
       subject: 'Sexta',
-      A: 85,
+      A: 110,
       B: 90,
       fullMark: 150
     },
     {
       subject: 'Sábado',
-      A: 65,
+      A: 115,
       B: 85,
       fullMark: 150
     },
     {
       subject: 'Domingo',
-      A: 65,
+      A: 105,
       B: 85,
       fullMark: 150
     }

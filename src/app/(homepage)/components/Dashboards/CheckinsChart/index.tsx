@@ -16,14 +16,14 @@ export default function CheckinsChart() {
       {
         type: 'line',
         name: 'Check-ins',
-        data: [1, 2, 3, 4, 5, 6],
+        data: [7, 5, 7, 13, 5, 18, 12],
         color: '#4f46e5'
       }
     ]
   }
 
   return (
-    <div className="max-h-[240px]">
+    <div className="max-h-[240px] w-full min-w-[300px] 2xl:min-w-[450px]">
       <HighchartsReact highcharts={Highcharts} options={options} />
     </div>
   )

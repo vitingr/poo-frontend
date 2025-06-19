@@ -5,6 +5,8 @@ export default {
     extend: {
       screens: {
         ultrawide: '2560px',
+        '3xl': '1800px',
+        '4xl': '2100px',
         xs: '425px'
       },
       fontSize: {

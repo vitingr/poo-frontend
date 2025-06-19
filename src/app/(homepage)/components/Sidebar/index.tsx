@@ -27,112 +27,111 @@ import { NavProjects } from './NavProjects'
 import { NavUser } from './NavUser'
 import { TeamSwitcher } from './TeamSwitcher'
 
-// This is sample data.
 const data = {
   user: {
-    name: 'shadcn',
-    email: 'm@example.com',
+    name: 'Admin',
+    email: 'admin@cs2.com',
     avatar: '/avatars/shadcn.jpg'
   },
   teams: [
     {
-      name: 'Acme Inc',
+      name: 'Projeto IFSP POO',
       logo: GalleryVerticalEnd,
-      plan: 'Enterprise'
+      plan: 'Admin'
     },
     {
-      name: 'Acme Corp.',
+      name: 'Pousada do Sol',
       logo: AudioWaveform,
-      plan: 'Startup'
+      plan: 'Standard'
     },
     {
-      name: 'Evil Corp.',
+      name: 'Resort Mar Azul',
       logo: Command,
-      plan: 'Free'
+      plan: 'Basic'
     }
   ],
   navMain: [
     {
-      title: 'Playground',
+      title: 'Dashboard',
       url: '#',
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
-          title: 'History',
+          title: 'Visão Geral',
+          url: '/'
+        },
+        {
+          title: 'Check-ins Recentes',
           url: '#'
         },
         {
-          title: 'Starred',
-          url: '#'
-        },
-        {
-          title: 'Settings',
+          title: 'Configurações do Painel',
           url: '#'
         }
       ]
     },
     {
-      title: 'Models',
+      title: 'Quartos',
       url: '#',
       icon: Bot,
       items: [
         {
-          title: 'Genesis',
+          title: 'Todos os Quartos',
+          url: '/todos-quartos'
+        },
+        {
+          title: 'Disponíveis',
           url: '#'
         },
         {
-          title: 'Explorer',
-          url: '#'
-        },
-        {
-          title: 'Quantum',
+          title: 'Em Manutenção',
           url: '#'
         }
       ]
     },
     {
-      title: 'Documentation',
+      title: 'Reservas',
       url: '#',
       icon: BookOpen,
       items: [
         {
-          title: 'Introduction',
+          title: 'Todas as Reservas',
           url: '#'
         },
         {
-          title: 'Get Started',
+          title: 'Nova Reserva',
           url: '#'
         },
         {
-          title: 'Tutorials',
+          title: 'Histórico',
           url: '#'
         },
         {
-          title: 'Changelog',
+          title: 'Cancelamentos',
           url: '#'
         }
       ]
     },
     {
-      title: 'Settings',
+      title: 'Configurações',
       url: '#',
       icon: Settings2,
       items: [
         {
-          title: 'General',
+          title: 'Geral',
           url: '#'
         },
         {
-          title: 'Team',
+          title: 'Equipe',
           url: '#'
         },
         {
-          title: 'Billing',
+          title: 'Financeiro',
           url: '#'
         },
         {
-          title: 'Limits',
+          title: 'Limites e Planos',
           url: '#'
         }
       ]
@@ -140,17 +139,17 @@ const data = {
   ],
   projects: [
     {
-      name: 'Design Engineering',
+      name: 'Gestão de Quartos',
       url: '#',
       icon: Frame
     },
     {
-      name: 'Sales & Marketing',
+      name: 'Gestão de Reservas',
       url: '#',
       icon: PieChart
     },
     {
-      name: 'Travel',
+      name: 'Relatórios & Análises',
       url: '#',
       icon: Map
     }

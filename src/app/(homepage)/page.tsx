@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 
+import { Footer } from '@/components/common/Footer'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -16,31 +17,34 @@ import { AppSidebar } from './components/Sidebar'
 
 const Page: NextPage = async () => {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <main className="w-full bg-neutral-50">
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b">
-          <div className="flex items-center gap-2 px-3">
-            <SidebarTrigger />
-            <Separator className="mr-2 h-4" orientation="vertical" />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </header>
-        <Dashboards />
-      </main>
-    </SidebarProvider>
+    <>
+      <SidebarProvider>
+        <AppSidebar />
+        <main className="w-full overflow-hidden bg-neutral-50">
+          <header className="flex h-16 shrink-0 items-center gap-2 border-b">
+            <div className="flex items-center gap-2 px-3">
+              <SidebarTrigger />
+              <Separator className="mr-2 h-4" orientation="vertical" />
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem className="hidden md:block">
+                    <BreadcrumbLink href="#">
+                      Plataforma de Hotéis IFSP
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator className="hidden md:block" />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>Visão geral</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </div>
+          </header>
+          <Dashboards />
+        </main>
+      </SidebarProvider>
+      <Footer />
+    </>
   )
 }
 

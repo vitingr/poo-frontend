@@ -39,107 +39,107 @@ import type {
   VisibilityState
 } from '@tanstack/react-table'
 
-const data: Payment[] = [
+const data: Employee[] = [
   {
     id: 'm5gr84i9',
-    amount: 316,
-    status: 'success',
+    position: 'Gerente Geral do Hotel',
+    role: 'admin',
     email: 'ken99@example.com'
   },
   {
     id: '3u1reuv4',
-    amount: 242,
-    status: 'success',
-    email: 'Abe45@example.com'
+    position: 'Gerente de Recepção',
+    role: 'gerente',
+    email: 'abe45@example.com'
   },
   {
     id: 'derv1ws0',
-    amount: 837,
-    status: 'processing',
-    email: 'Monserrat44@example.com'
+    position: 'Recepcionista',
+    role: 'funcionario',
+    email: 'monserrat44@example.com'
   },
   {
     id: '5kma53ae',
-    amount: 874,
-    status: 'success',
-    email: 'Silas22@example.com'
+    position: 'Supervisor de Governança',
+    role: 'gerente',
+    email: 'silas22@example.com'
   },
   {
     id: 'bhqecj4p',
-    amount: 721,
-    status: 'failed',
+    position: 'Técnico de Manutenção',
+    role: 'funcionario',
     email: 'carmella@example.com'
   },
   {
-    id: 'm5gr84i9',
-    amount: 316,
-    status: 'success',
-    email: 'ken99@example.com'
+    id: 'mv3t8a1l',
+    position: 'Coordenador de Eventos',
+    role: 'funcionario',
+    email: 'lisa@example.com'
   },
   {
-    id: '3u1reuv4',
-    amount: 242,
-    status: 'success',
-    email: 'Abe45@example.com'
+    id: '1a9b8vpl',
+    position: 'Gerente de Restaurante',
+    role: 'gerente',
+    email: 'bruno@example.com'
   },
   {
-    id: 'derv1ws0',
-    amount: 837,
-    status: 'processing',
-    email: 'Monserrat44@example.com'
+    id: 'l3p5q2r7',
+    position: 'Auditor Noturno',
+    role: 'funcionario',
+    email: 'julia@example.com'
   },
   {
-    id: '5kma53ae',
-    amount: 874,
-    status: 'success',
-    email: 'Silas22@example.com'
+    id: 'xv4m0k98',
+    position: 'Concierge',
+    role: 'funcionario',
+    email: 'diego@example.com'
   },
   {
-    id: 'bhqecj4p',
-    amount: 721,
-    status: 'failed',
-    email: 'carmella@example.com'
+    id: 'yq9z8c7n',
+    position: 'Camareira',
+    role: 'funcionario',
+    email: 'ana@example.com'
   },
   {
-    id: 'm5gr84i9',
-    amount: 316,
-    status: 'success',
-    email: 'ken99@example.com'
+    id: 'r7m6v2kp',
+    position: 'Atendente de Hospedagem',
+    role: 'funcionario',
+    email: 'lucas@example.com'
   },
   {
-    id: '3u1reuv4',
-    amount: 242,
-    status: 'success',
-    email: 'Abe45@example.com'
+    id: 'c9b8p2lv',
+    position: 'Analista de Marketing',
+    role: 'funcionario',
+    email: 'maria@example.com'
   },
   {
-    id: 'derv1ws0',
-    amount: 837,
-    status: 'processing',
-    email: 'Monserrat44@example.com'
+    id: 'v0k7p1rm',
+    position: 'Agente de Segurança',
+    role: 'funcionario',
+    email: 'pedro@example.com'
   },
   {
-    id: '5kma53ae',
-    amount: 874,
-    status: 'success',
-    email: 'Silas22@example.com'
+    id: 'z6m5q9lt',
+    position: 'Suporte de TI',
+    role: 'funcionario',
+    email: 'carol@example.com'
   },
   {
-    id: 'bhqecj4p',
-    amount: 721,
-    status: 'failed',
-    email: 'carmella@example.com'
+    id: 'a1s2d3f4',
+    position: 'Gerente Financeiro',
+    role: 'gerente',
+    email: 'roberto@example.com'
   }
 ]
 
-export type Payment = {
+export type Employee = {
   id: string
-  amount: number
-  status: 'pending' | 'processing' | 'success' | 'failed'
+  position: string
+  role: string
   email: string
 }
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Employee>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -164,11 +164,9 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false
   },
   {
-    accessorKey: 'status',
-    header: 'Status',
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue('status')}</div>
-    )
+    accessorKey: 'role',
+    header: 'Role',
+    cell: ({ row }) => <div className="capitalize">{row.getValue('role')}</div>
   },
   {
     accessorKey: 'email',
@@ -186,18 +184,12 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => <div className="lowercase">{row.getValue('email')}</div>
   },
   {
-    accessorKey: 'amount',
-    header: () => <div className="text-right">Amount</div>,
+    accessorKey: 'position',
+    header: () => <div className="text-right">Position</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue('amount'))
+      const position = row.getValue('position')
 
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD'
-      }).format(amount)
-
-      return <div className="text-right font-medium">{formatted}</div>
+      return <div className="text-right font-medium">{position as string}</div>
     }
   },
   {
@@ -265,7 +257,7 @@ export const Staff: FC = () => {
   })
 
   return (
-    <div className="w-full">
+    <div className="-mt-4 w-full">
       <div className="flex items-center py-4">
         <Input
           onChange={event =>
