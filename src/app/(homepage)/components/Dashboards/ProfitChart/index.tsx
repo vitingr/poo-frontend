@@ -3,7 +3,7 @@
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 
-export default function CheckinsChart() {
+export default function ProfitsChart() {
   const options: Highcharts.Options = {
     chart: {
       type: 'line',
@@ -23,7 +23,7 @@ export default function CheckinsChart() {
   }
 
   return (
-    <div className="max-h-[240px]">
+    <div className="max-h-[320px]">
       <HighchartsReact highcharts={Highcharts} options={options} />
     </div>
   )
