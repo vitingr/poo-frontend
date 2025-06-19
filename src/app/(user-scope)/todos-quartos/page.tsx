@@ -12,8 +12,8 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 
-import { AppSidebar } from '../../components/common/Sidebar'
-import { Dashboards } from './components/Dashboards'
+import { AppSidebar } from '../../../components/common/Sidebar'
+import { AllRooms } from './components/AllRooms'
 
 const Page: NextPage = async () => {
   return (
@@ -34,18 +34,17 @@ const Page: NextPage = async () => {
                   </BreadcrumbItem>
                   <BreadcrumbSeparator className="hidden md:block" />
                   <BreadcrumbItem>
-                    <BreadcrumbPage>Visão geral</BreadcrumbPage>
+                    <BreadcrumbPage>Todos os Quartos</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
           </header>
-          <Dashboards />
+          <AllRooms />
         </main>
       </SidebarProvider>
       <Footer />
     </>
   )
 }
-
 export default Page
