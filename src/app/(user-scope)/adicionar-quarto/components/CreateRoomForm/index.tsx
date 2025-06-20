@@ -27,7 +27,7 @@ export const CreateRoomForm: FC = () => {
   const {
     handleSubmit,
     register,
-    formState: { isValidating, isSubmitSuccessful, isSubmitting }
+    formState: {}
   } = formMethods
 
   const onSubmit: SubmitHandler<CreateRoomInputs> = async ({

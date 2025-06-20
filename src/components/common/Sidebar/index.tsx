@@ -62,10 +62,6 @@ const data = {
           url: '/'
         },
         {
-          title: 'Check-ins Recentes',
-          url: '/checkins-recentes'
-        },
-        {
           title: 'Configurações do Painel',
           url: '#'
         }
@@ -86,7 +82,7 @@ const data = {
         },
         {
           title: 'Em Manutenção',
-          url: '#'
+          url: '/quartos-em-manutencao'
         }
       ]
     },
@@ -96,16 +92,16 @@ const data = {
       icon: BookOpen,
       items: [
         {
-          title: 'Todas as Reservas',
-          url: '#'
+          title: 'Check-ins Recentes',
+          url: '/checkins-recentes'
         },
         {
-          title: 'Nova Reserva',
-          url: '#'
+          title: 'Realizar Checkin',
+          url: '/realizar-checkin'
         },
         {
-          title: 'Histórico',
-          url: '#'
+          title: 'Todos Checkins',
+          url: '/todos-checkins'
         },
         {
           title: 'Cancelamentos',
