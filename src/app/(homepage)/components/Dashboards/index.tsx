@@ -85,7 +85,7 @@ export const Dashboards: FC = () => {
               </span>
             </p>
             <p className="text-sm text-neutral-500">
-              Aqui você pode conferir seus empregados
+              Aqui você pode conferir seus empregados insignificantes :D.
             </p>
           </article>
           <Staff />

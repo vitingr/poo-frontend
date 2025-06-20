@@ -1,8 +1,9 @@
 import Image from 'next/image'
 import type { FC } from 'react'
 
-import { ROOMS_DATA } from './data'
 import { Check } from '@/assets/icons/Check'
+
+import { ROOMS_DATA } from './data'
 
 export const AllRooms: FC = () => {
   return (
@@ -32,15 +33,20 @@ export const AllRooms: FC = () => {
                   />
                 </figure>
                 <div className="flex w-full flex-col gap-3 rounded-b-md bg-white px-4 py-6">
-                  {room.type === 'premium' ? (
-                    <span className="-ml-1 w-fit rounded-md bg-amber-50 px-3 py-0.5 text-center text-[10px] text-amber-500 uppercase">
-                      {room.type}
+                  <div className="flex items-center gap-3">
+                    {room.type === 'premium' ? (
+                      <span className="-ml-1 w-fit rounded-md bg-amber-50 px-3 py-0.5 text-center text-[10px] text-amber-500 uppercase">
+                        {room.type}
+                      </span>
+                    ) : (
+                      <span className="-ml-1 w-fit rounded-md bg-indigo-50 px-3 py-0.5 text-center text-[10px] text-indigo-500 uppercase">
+                        {room.type}
+                      </span>
+                    )}
+                    <span className="-ml-1 w-fit rounded-md bg-blue-50 px-3 py-0.5 text-center text-[10px] text-blue-500 uppercase">
+                      Disponível
                     </span>
-                  ) : (
-                    <span className="-ml-1 w-fit rounded-md bg-indigo-50 px-3 py-0.5 text-center text-[10px] text-indigo-500 uppercase">
-                      {room.type}
-                    </span>
-                  )}
+                  </div>
                   <article className="flex w-full flex-col">
                     <h3 className="text-xl font-semibold">{room.hotel_code}</h3>
                     <p className="text-sm text-neutral-500">

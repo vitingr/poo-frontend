@@ -63,7 +63,7 @@ const data = {
         },
         {
           title: 'Check-ins Recentes',
-          url: '#'
+          url: '/checkins-recentes'
         },
         {
           title: 'Configurações do Painel',
@@ -81,8 +81,8 @@ const data = {
           url: '/todos-quartos'
         },
         {
-          title: 'Disponíveis',
-          url: '#'
+          title: 'Adicionar Quarto',
+          url: '/adicionar-quarto'
         },
         {
           title: 'Em Manutenção',
