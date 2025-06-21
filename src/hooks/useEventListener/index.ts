@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
-import { CustomEventHandler } from '@/types/customEvents/common'
-import { CustomEvents } from '@/types/customEvents/customEvents'
+import type { CustomEventHandler } from '@/types/customEvents/common'
+import type { CustomEvents } from '@/types/customEvents/customEvents'
 import { createCustomEvent } from '@/utils/customEvents/createCustomEvent'
 import { deleteCustomEvent } from '@/utils/customEvents/deleteCustomEvent'
 
-import { Handler } from './types'
+import type { Handler } from './types'
 
 export const useEventListener = <EventName extends keyof CustomEvents>(
   eventName: EventName,
