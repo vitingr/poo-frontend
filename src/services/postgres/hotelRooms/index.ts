@@ -32,14 +32,11 @@ export class HotelRooms {
 
   getAllHotelRooms = async ({ token }: BaseHotelRoomData) => {
     try {
-      return await this.instance.get<GetAllHotelRoomsResponse>(
-        '/rooms/all-rooms',
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+      return await this.instance.get<GetAllHotelRoomsResponse>('/rooms', {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-      )
+      })
     } catch (error) {
       console.error({ getAllHotelRoomsErrMessage: error.message })
     }

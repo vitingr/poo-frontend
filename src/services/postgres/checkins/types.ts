@@ -9,7 +9,7 @@ export interface CreateCheckinData extends BaseCheckinData {
 }
 
 export interface GetCheckinData extends BaseCheckinData {
-  guestId: string
+  checkinId: string
 }
 
 export interface DeleteCheckinData extends BaseCheckinData {

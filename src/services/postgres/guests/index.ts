@@ -32,14 +32,11 @@ export class Guests {
 
   getAllGuests = async ({ token }: BaseGuestData) => {
     try {
-      return await this.instance.get<GetAllGuestsResponse>(
-        '/guests/all-guests',
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+      return await this.instance.get<GetAllGuestsResponse>('/guests', {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-      )
+      })
     } catch (error) {
       console.error({ getAllGuestsErrMessage: error.message })
     }
