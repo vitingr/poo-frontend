@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+
 import { CreateCheckinForm } from './CreateCheckinForm'
 
 const Page: NextPage = async () => {

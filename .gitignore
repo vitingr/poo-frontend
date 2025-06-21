@@ -27,7 +27,6 @@ yarn-error.log*
 
 # local env files
 .env*.local
-.env
 
 # vercel
 .vercel
@@ -41,3 +40,9 @@ next-env.d.ts
 
 # Sitemaps
 public/sitemap*.xml
+
+# Authorization
+.npmrc
+
+# Sentry Config File
+.env.sentry-build-plugin
