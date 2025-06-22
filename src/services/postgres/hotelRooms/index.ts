@@ -7,6 +7,7 @@ import type {
   CreateHotelRoomData,
   DeleteHotelRoomData,
   GetAllHotelRoomsResponse,
+  GetGroupedHotelRoomsResponse,
   GetHotelRoomData,
   UpdateHotelRoomData
 } from './types'
@@ -20,19 +21,20 @@ export class HotelRooms {
 
   createHotelRoom = async ({ payload, token }: CreateHotelRoomData) => {
     try {
-      return await this.instance.post<HotelRoom>(`/rooms`, payload, {
+      return await this.instance.post<HotelRoom>(`/hotel-rooms`, payload, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       })
     } catch (error) {
       console.error({ createHotelRoomsErrMessage: error.message })
+      return { status: 500 }
     }
   }
 
   getAllHotelRooms = async ({ token }: BaseHotelRoomData) => {
     try {
-      return await this.instance.get<GetAllHotelRoomsResponse>('/rooms', {
+      return await this.instance.get<GetAllHotelRoomsResponse>('/hotel-rooms', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -42,13 +44,31 @@ export class HotelRooms {
     }
   }
 
+  getGroupedHotelRooms = async ({ token }: BaseHotelRoomData) => {
+    try {
+      return await this.instance.get<GetGroupedHotelRoomsResponse>(
+        '/hotel-rooms/grouped-by-floor',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      )
+    } catch (error) {
+      console.error({ getAllHotelRoomsErrMessage: error.message })
+    }
+  }
+
   getHotelRoom = async ({ roomId, token }: GetHotelRoomData) => {
     try {
-      return await this.instance.get<HotelRoom>(`/rooms/${roomId.toString()}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
+      return await this.instance.get<HotelRoom>(
+        `/hotel-rooms/${roomId.toString()}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         }
-      })
+      )
     } catch (error) {
       console.error({ getHotelRoomErrMessage: error.message })
     }
@@ -57,7 +77,7 @@ export class HotelRooms {
   updateHotelRoom = async ({ payload, token, roomId }: UpdateHotelRoomData) => {
     try {
       return await this.instance.patch<void>(
-        `/rooms/${roomId.toString()}`,
+        `/hotel-rooms/${roomId.toString()}`,
         payload,
         {
           headers: {
@@ -72,11 +92,14 @@ export class HotelRooms {
 
   deleteHotelRoom = async ({ roomId, token }: DeleteHotelRoomData) => {
     try {
-      return await this.instance.delete<void>(`/rooms/${roomId.toString()}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
+      return await this.instance.delete<void>(
+        `/hotel-rooms/${roomId.toString()}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         }
-      })
+      )
     } catch (error) {
       console.error({ deletHotelRoomErrMessage: error.message })
     }

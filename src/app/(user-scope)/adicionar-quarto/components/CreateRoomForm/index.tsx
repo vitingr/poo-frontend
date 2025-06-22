@@ -1,18 +1,18 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
+import axios from 'axios'
 import Image from 'next/image'
 import { type FC, useState } from 'react'
 import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-import { Check } from '@/assets/icons/Check'
+import { Check } from '@/assets/common/Check'
 import { InputField } from '@/components/toolkit/Fields/InputField'
 import { SelectField } from '@/components/toolkit/Fields/SelectField'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { FLOORS } from './data'
+import { FLOORS, ROOM_TYPES } from './data'
 import type { CreateRoomInputs } from './schema'
 import { createHotelRoomSchema } from './schema'
 
@@ -27,23 +27,46 @@ export const CreateRoomForm: FC = () => {
   const {
     handleSubmit,
     register,
-    formState: {}
+    reset,
+    formState: { isSubmitting }
   } = formMethods
 
   const onSubmit: SubmitHandler<CreateRoomInputs> = async ({
     beds_qtd,
     description,
     floor,
-    has_tv,
-    has_wifi,
     is_available,
     max_capacity,
     price_per_night,
     room_type
   }) => {
     try {
-      // mandar aqui req na api
-      toast('Event has been created.')
+      const { status } = await axios.post('/api/rooms/create-room', {
+        payload: {
+          beds_qtd,
+          description,
+          floor: floor,
+          has_tv: hasTv,
+          has_wifi: hasWifi,
+          is_available: is_available === 'true',
+          max_capacity,
+          price_per_night: Number(price_per_night),
+          room_image:
+            'http://localhost:3000/_next/image?url=https%3A%2F%2Fplus.unsplash.com%2Fpremium_photo-1661964402307-02267d1423f5%3Ffm%3Djpg%26q%3D60%26w%3D3000%26ixlib%3Drb-4.1.0%26ixid%3DM3wxMjA3fDB8MHxzZWFyY2h8MXx8aG90ZWwlMjByb29tfGVufDB8fDB8fHww&w=3840&q=75',
+          room_type
+        },
+        token: ''
+      })
+
+      if (status !== 200) {
+        toast.error('Não foi possível adicionar o quarto...')
+        return
+      }
+
+      toast.success('Quarto adicionado com sucesso!')
+      reset()
+      setHasTv(false)
+      setHasWifi(false)
     } catch (onSubmitErr) {
       console.error(onSubmitErr)
     }
@@ -82,7 +105,7 @@ export const CreateRoomForm: FC = () => {
               options={FLOORS}
               placeholder="Selecione Andar em que o quarto estará localizado"
               variant="secondary"
-              {...register('floor')}
+              {...register('floor', { valueAsNumber: true })}
             />
             <InputField
               id="description"
@@ -103,7 +126,7 @@ export const CreateRoomForm: FC = () => {
                   minLength={1}
                   placeholder="Número de camas nesse quarto"
                   type="number"
-                  {...register('beds_qtd')}
+                  {...register('beds_qtd', { valueAsNumber: true })}
                   variant="secondary"
                 />
               </div>
@@ -115,7 +138,7 @@ export const CreateRoomForm: FC = () => {
                   min={0}
                   placeholder="Capacidade máxima suportada por esse quarto"
                   type="number"
-                  {...register('max_capacity')}
+                  {...register('max_capacity', { valueAsNumber: true })}
                   variant="secondary"
                 />
               </div>
@@ -129,7 +152,7 @@ export const CreateRoomForm: FC = () => {
                   minLength={1}
                   placeholder="Preço por cada noite"
                   type="number"
-                  {...register('price_per_night')}
+                  {...register('price_per_night', { valueAsNumber: true })}
                   variant="secondary"
                 />
               </div>
@@ -153,10 +176,20 @@ export const CreateRoomForm: FC = () => {
                 />
               </div>
             </div>
+            <SelectField
+              id="room_type"
+              label="Tipo do Quarto"
+              name="room_type"
+              options={ROOM_TYPES}
+              placeholder="Selecione a qualidade desse quarto"
+              variant="secondary"
+              {...register('room_type')}
+            />
             <div className="mt-2 ml-0.5 flex items-center gap-2">
               <button
                 className={`flex cursor-pointer items-center justify-center rounded-[2px] border p-[3.5px] transition-all duration-300 hover:brightness-95 ${hasTv ? 'border-blue-600 bg-blue-600' : 'border-neutral-400 bg-white'}`}
                 onClick={() => setHasTv(!hasTv)}
+                type="button"
               >
                 <Check
                   className={`h-3 w-3 ${hasTv ? 'text-white' : 'text-neutral-500'}`}
@@ -168,6 +201,7 @@ export const CreateRoomForm: FC = () => {
               <button
                 className={`flex cursor-pointer items-center justify-center rounded-[2px] border p-[3.5px] transition-all duration-300 hover:brightness-95 ${hasWifi ? 'border-blue-600 bg-blue-600' : 'border-neutral-400 bg-white'}`}
                 onClick={() => setHasWifi(!hasWifi)}
+                type="button"
               >
                 <Check
                   className={`h-3 w-3 ${hasWifi ? 'text-white' : 'text-neutral-500'}`}
@@ -175,7 +209,11 @@ export const CreateRoomForm: FC = () => {
               </button>
               <p className="text-sm text-neutral-500">O quarto possui WiFi?</p>
             </div>
-            <button className="continue-application mt-6" type="submit">
+            <button
+              className={`continue-application mt-6 transition-all duration-300 ${isSubmitting ? 'brightness-95' : ''}`}
+              disabled={isSubmitting}
+              type="submit"
+            >
               <div>
                 <div className="pencil"></div>
                 <div className="folder">

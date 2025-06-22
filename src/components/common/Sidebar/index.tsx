@@ -81,8 +81,12 @@ const data = {
           url: '/adicionar-quarto'
         },
         {
-          title: 'Em Manutenção',
-          url: '/quartos-em-manutencao'
+          title: 'Quartos Ocupados',
+          url: '/quartos-em-uso'
+        },
+        {
+          title: 'Quartos Disponíveis',
+          url: '/quartos-disponiveis'
         }
       ]
     },
@@ -110,25 +114,17 @@ const data = {
       ]
     },
     {
-      title: 'Configurações',
+      title: 'Hóspedes',
       url: '#',
       icon: Settings2,
       items: [
         {
-          title: 'Geral',
-          url: '#'
+          title: 'Hóspedes Cadastrados',
+          url: '/hospedes'
         },
         {
-          title: 'Equipe',
-          url: '#'
-        },
-        {
-          title: 'Financeiro',
-          url: '#'
-        },
-        {
-          title: 'Limites e Planos',
-          url: '#'
+          title: 'Cadastrar Hóspede',
+          url: '/cadastrar-hospede'
         }
       ]
     }

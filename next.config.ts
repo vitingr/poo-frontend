@@ -15,6 +15,8 @@ const nextConfig = {
   },
   images: {
     domains: [
+      'localhost',
+      '127.0.0.1',
       'lh3.googleusercontent.com',
       'res.cloudinary.com',
       'img.clerk.com'

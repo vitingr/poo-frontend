@@ -1,5 +1,5 @@
 export interface HotelRoom {
-  beds_qtd: string
+  beds_qtd: number
   created_at: Date
   description: string
   floor: number
@@ -7,6 +7,7 @@ export interface HotelRoom {
   has_wifi: boolean
   id: string
   is_available: boolean
+  max_capacity: number
   price_per_night: number
   room_code: string
   room_image: string

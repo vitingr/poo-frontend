@@ -16,6 +16,7 @@ export interface CreateHotelRoomData extends BaseHotelRoomData {
     | 'price_per_night'
     | 'room_image'
     | 'room_type'
+    | 'max_capacity'
   >
 }
 
@@ -33,3 +34,8 @@ export interface UpdateHotelRoomData extends BaseHotelRoomData {
 }
 
 export type GetAllHotelRoomsResponse = HotelRoom[]
+
+export type GetGroupedHotelRoomsResponse = {
+  floor: number
+  rooms: HotelRoom[]
+}[]

@@ -10,3 +10,10 @@ export const FLOORS = [
   { value: '9', label: 'Nono Andar' },
   { value: '10', label: 'Décimo Andar' }
 ]
+
+export const ROOM_TYPES = [
+  { value: 'SINGLE', label: 'Quarto Individual' },
+  { value: 'DOUBLE', label: 'Quarto Duplo' },
+  { value: 'SUITE', label: 'Suíte' },
+  { value: 'DELUXE', label: 'Quarto de Luxo' }
+]
