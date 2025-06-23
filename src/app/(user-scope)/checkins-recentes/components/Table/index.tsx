@@ -38,7 +38,6 @@ import {
   useReactTable
 } from '@tanstack/react-table'
 
-// Data type
 export type Checkin = {
   guest_name: string
   room: string
@@ -51,7 +50,6 @@ export type Checkin = {
   payment_status: string
 }
 
-// Columns
 export const columns: ColumnDef<Checkin>[] = [
   {
     id: 'select',
@@ -165,7 +163,6 @@ export const columns: ColumnDef<Checkin>[] = [
   }
 ]
 
-// Component
 export const LatestCheckinsTable = ({ data }: { data: Checkin[] }) => {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -276,7 +273,7 @@ export const LatestCheckinsTable = ({ data }: { data: Checkin[] }) => {
                   className="h-24 text-center"
                   colSpan={columns.length}
                 >
-                  No results.
+                  Ops, não encontramos nenhum resultado.
                 </TableCell>
               </TableRow>
             )}
@@ -286,7 +283,7 @@ export const LatestCheckinsTable = ({ data }: { data: Checkin[] }) => {
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="text-muted-foreground flex-1 text-sm">
           {table.getFilteredSelectedRowModel().rows.length} of{' '}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {table.getFilteredRowModel().rows.length} coluna(s) selecionada(s).
         </div>
         <div className="space-x-2">
           <Button
@@ -295,7 +292,7 @@ export const LatestCheckinsTable = ({ data }: { data: Checkin[] }) => {
             size="sm"
             variant="outline"
           >
-            Previous
+            Anterior
           </Button>
           <Button
             disabled={!table.getCanNextPage()}
@@ -303,7 +300,7 @@ export const LatestCheckinsTable = ({ data }: { data: Checkin[] }) => {
             size="sm"
             variant="outline"
           >
-            Next
+            Próximo
           </Button>
         </div>
       </div>

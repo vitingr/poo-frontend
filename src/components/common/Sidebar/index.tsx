@@ -101,7 +101,7 @@ const data = {
         },
         {
           title: 'Realizar Checkin',
-          url: '/realizar-checkin'
+          url: '/realizar-reserva'
         },
         {
           title: 'Todos Checkins',

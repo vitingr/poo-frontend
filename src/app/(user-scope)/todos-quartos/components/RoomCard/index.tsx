@@ -14,10 +14,10 @@ export const RoomCard: FC<RoomCardProps> = ({ room }) => {
   return (
     <>
       <div className="group cursor-pointer rounded-md bg-white transition-all duration-300 hover:shadow">
-        <figure className="h-[200px] w-full rounded-t-md">
+        <figure className="h-[220px] w-full rounded-t-md">
           <Image
             alt={room.room_code}
-            className="h-[200px] w-full rounded-t-md object-cover transition-all duration-300 group-hover:brightness-95"
+            className="h-[220px] w-full rounded-t-md object-cover transition-all duration-300 group-hover:brightness-95"
             height={1080}
             src={room.room_image}
             width={1920}

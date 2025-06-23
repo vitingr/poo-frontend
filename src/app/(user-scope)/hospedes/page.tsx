@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 
 import { Footer } from '@/components/common/Footer'
-import { AppSidebar } from '@/components/common/Sidebar'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,7 +12,8 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 
-import { CreateCheckinForm } from './CreateCheckinForm'
+import { AppSidebar } from '../../../components/common/Sidebar'
+import { AllGuests } from './components/AllGuests'
 
 const Page: NextPage = async () => {
   return (
@@ -34,13 +34,13 @@ const Page: NextPage = async () => {
                   </BreadcrumbItem>
                   <BreadcrumbSeparator className="hidden md:block" />
                   <BreadcrumbItem>
-                    <BreadcrumbPage>Realizar Checkin</BreadcrumbPage>
+                    <BreadcrumbPage>Todos hóspedes</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
           </header>
-          <CreateCheckinForm />
+          <AllGuests />
         </main>
       </SidebarProvider>
       <Footer />
