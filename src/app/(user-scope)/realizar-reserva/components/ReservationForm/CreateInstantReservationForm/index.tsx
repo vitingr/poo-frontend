@@ -1,17 +1,14 @@
-'use client'
-
-'use client'
-
 import axios from 'axios'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { type FC, useState } from 'react'
 import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-import { InputField } from '@/components/toolkit/Fields/InputField'
+import { SelectField } from '@/components/toolkit/Fields/SelectField'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -19,41 +16,73 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover'
+import { useGetAllGuests } from '@/hooks/swr/useGetAllGuests'
+import { useGetAllRooms } from '@/hooks/swr/useGetAllRooms'
+import type { HotelRoom } from '@/types/models/hotelRoom'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import type { CreateGuestInputs } from './schema'
-import { createGuestSchema } from './schema'
+import type { CreateCheckinInputs } from './schema'
+import { createCheckinSchema } from './schema'
+import type { CreateCheckinFormProps } from './types'
 
-export const CreateGuestForm: FC = () => {
+export const CreateInstantReservationForm: FC<CreateCheckinFormProps> = ({
+  reservationType
+}) => {
   const [date, setDate] = useState<Date>()
 
-  const formMethods = useForm<CreateGuestInputs>({
-    resolver: zodResolver(createGuestSchema)
+  const formMethods = useForm<CreateCheckinInputs>({
+    resolver: zodResolver(createCheckinSchema)
   })
 
   const {
     handleSubmit,
     register,
     reset,
-    formState: { isSubmitting }
+    formState: {}
   } = formMethods
 
-  const onSubmit: SubmitHandler<CreateGuestInputs> = async payload => {
-    try {
-      const { status } = await axios.post('/api/guests/create-guest', {
-        payload: { ...payload, birth_date: date },
-        token: ''
-      })
+  const { guests } = useGetAllGuests()
+  const { rooms } = useGetAllRooms()
 
+  const guestOptions =
+    guests?.map(guest => ({
+      label: guest.full_name,
+      value: guest.id
+    })) || []
+
+  const hotelRoomsOptions =
+    rooms?.map((room: HotelRoom) => ({
+      label: `${room.room_code} - ${room.floor} andar`,
+      value: room.id
+    })) || []
+
+  const onSubmit: SubmitHandler<CreateCheckinInputs> = async ({
+    room_id,
+    guest_id
+  }) => {
+    try {
+      const { status } = await axios.post(
+        '/api/reservations/create-reservation',
+        {
+          payload: {
+            room_id,
+            guest_id,
+            start_date: new Date().toISOString().slice(0, 19),
+            end_date: date.toISOString().slice(0, 19)
+          },
+          token: ''
+        }
+      )
       if (status !== 200) {
-        toast.error('Não foi possível cadastrar o hóspede...')
+        toast.error('Não foi possível realizar a reserva...')
         return
       }
 
-      toast.success('Hóspede cadastrado com sucesso!')
+      toast.success('Reserva realizada com sucesso!')
       reset()
-    } catch (createGuestErr) {
-      console.error(createGuestErr)
+      setDate(null)
+    } catch (onSubmitErr) {
+      console.error(onSubmitErr)
     }
   }
 
@@ -78,62 +107,39 @@ export const CreateGuestForm: FC = () => {
               alt="Background Image"
               className="h-[240px] w-full rounded-t-[2px] object-cover"
               height={2253}
-              src="https://plus.unsplash.com/premium_photo-1661964402307-02267d1423f5?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG90ZWwlMjByb29tfGVufDB8fDB8fHww"
+              src="https://www.parkregiskriskin.ae/wp-content/uploads/2020/07/room-twin-bed-2520x1400.jpg"
               width={3000}
             />
           </figure>
           <article className="flex w-full flex-col gap-3 px-4 py-6">
-            <InputField
-              id="full_name"
-              label="Nome do Hóspede"
-              maxLength={140}
-              minLength={2}
-              placeholder="Insira aqui o nome do hóspede que será cadastrado"
-              spellCheck={false}
-              {...register('full_name')}
-              variant="secondary"
-            />
-            <InputField
-              id="email"
-              label="Email"
-              maxLength={140}
-              minLength={4}
-              placeholder="Insira aqui o email do hóspede que será cadastrado"
-              spellCheck={false}
-              type="email"
-              {...register('email')}
-              variant="secondary"
-            />
-            <InputField
-              id="document"
-              label="Documento (RG ou CPF)"
-              maxLength={18}
-              minLength={4}
-              placeholder="Insira aqui o CPF ou RG do hóspede"
-              spellCheck={false}
-              {...register('document')}
-              variant="secondary"
-            />
-            <InputField
-              id="phone"
-              label="Telefone"
-              maxLength={14}
-              minLength={9}
-              placeholder="Insira aqui o telefone do hóspede que será cadastrado"
-              spellCheck={false}
-              {...register('phone')}
-              variant="secondary"
-            />
-            <InputField
-              id="phone"
-              label="Endereço"
-              maxLength={14}
-              minLength={9}
-              placeholder="Insira aqui o endereço do hóspede que será cadastrado"
-              spellCheck={false}
-              {...register('address')}
-              variant="secondary"
-            />
+            <div className="flex w-full flex-col">
+              <SelectField
+                id="guest_id"
+                label="Hóspede que está realizando a reserva do quarto"
+                name="guest_id"
+                options={guestOptions}
+                variant="secondary"
+                {...register('guest_id')}
+              />
+              <Link
+                className="-mt-0.5 text-xs text-blue-500 transition-all duration-300 hover:text-indigo-500"
+                href="/cadastrar-hospede"
+              >
+                Hóspede ainda não está cadastrado? clique aqui.
+              </Link>
+            </div>
+
+            <div className="mt-1 w-full">
+              <SelectField
+                id="room_code"
+                label="Número do Quarto"
+                name="room_code"
+                options={hotelRoomsOptions}
+                variant="secondary"
+                {...register('room_id')}
+              />
+            </div>
+
             <div className="flex flex-col gap-2">
               <p className="text-sm text-neutral-700">Data de Nascimento</p>
               <Popover>
@@ -144,7 +150,11 @@ export const CreateGuestForm: FC = () => {
                     variant="outline"
                   >
                     <CalendarIcon />
-                    {date ? format(date, 'PPP') : <span>Pick a date</span>}
+                    {date ? (
+                      format(date, 'PPP')
+                    ) : (
+                      <span>Quando o hóspede irá embora?</span>
+                    )}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
@@ -152,11 +162,8 @@ export const CreateGuestForm: FC = () => {
                 </PopoverContent>
               </Popover>
             </div>
-            <button
-              className={`continue-application mt-6 transition-all duration-300 ${isSubmitting ? 'brightness-95' : ''}`}
-              disabled={isSubmitting}
-              type="submit"
-            >
+
+            <button className="continue-application mt-6" type="submit">
               <div>
                 <div className="pencil"></div>
                 <div className="folder">
@@ -168,7 +175,7 @@ export const CreateGuestForm: FC = () => {
                   <div className="paper"></div>
                 </div>
               </div>
-              Cadastrar novo hóspede
+              Realizar nova reserva
             </button>
           </article>
         </form>

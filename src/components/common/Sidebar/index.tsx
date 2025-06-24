@@ -96,8 +96,8 @@ const data = {
       icon: BookOpen,
       items: [
         {
-          title: 'Check-ins Recentes',
-          url: '/checkins-recentes'
+          title: 'Todas Reservas',
+          url: '/reservas'
         },
         {
           title: 'Realizar Checkin',
