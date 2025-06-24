@@ -1,0 +1,31 @@
+name: 'Verify Build And Plan'
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build-job:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    name: CI - Build Verify
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.11.0
+
+      - name: Install Yarn
+        run: |
+          npm install -g yarn
+
+      - name: Build
+        run: |
+          yarn install --frozen-lockfile
+          yarn build
+
+      - name: Docker Build
+        run : |
+          docker build -t ci -f Dockerfile .

@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hotel Management Frontend - IFSP Capivari
 
-## Getting Started
+Este repositório contém o frontend da aplicação de gerenciamento de hotel, desenvolvido como trabalho da disciplina de Orientação a Objetos do IFSP Capivari. A aplicação permite que usuários interajam com o sistema de reservas, check-ins, check-outs, gerenciamento de quartos e hóspedes, de forma simples, intuitiva e responsiva.
 
-First, run the development server:
+## 🛠️ Tecnologias Utilizadas
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Next.js (React)
+- TypeScript
+- SCSS Modules
+- TailwindCSS
+- Docker
+- Vercel (Deploy)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎨 Estilo e Design
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+O projeto utiliza TailwindCSS em conjunto com SCSS Modules, proporcionando uma interface moderna, responsiva e com alta performance. Foram aplicadas boas práticas de UI/UX para garantir uma ótima experiência para os usuários.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Deploy
 
-## Learn More
+O deploy do frontend é realizado na Vercel, que oferece CI/CD automático a cada push na branch principal. A aplicação é otimizada para performance, escalabilidade e disponibilidade global.
 
-To learn more about Next.js, take a look at the following resources:
+## 🔧 Funcionalidades da Interface
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Dashboard de gestão para hóspedes, quartos e reservas
+- Visualização e controle de disponibilidade dos quartos
+- Realização de reservas, check-ins e check-outs
+- Feedback visual sobre o status dos quartos (livre, ocupado, manutenção)
+- Tabelas, filtros e listagens dinâmicas dos dados
+- Integração completa com a API backend
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📦 Como Executar Localmente
 
-## Deploy on Vercel
+1. Clone este repositório
+2. Instale as dependências com `npm install` ou `yarn install`
+3. Configure as variáveis de ambiente no arquivo `.env.local` (URLs da API e demais configs)
+4. Execute o projeto com `npm run dev` ou `yarn dev`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+A aplicação estará disponível em `http://localhost:3000`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🐳 Executando com Docker
+
+- Para gerar a imagem: `docker build -t hotel-frontend .`
+- Para executar o container: `docker run -p 3000:3000 --env-file .env.local hotel-frontend`
+
+## ☁️ Deploy na Vercel
+
+O deploy é feito diretamente pela Vercel, integrado ao GitHub. Cada push na branch principal gera uma nova build automaticamente. As variáveis de ambiente são configuradas diretamente no painel da Vercel.
+
+## 🤝 Contribuições
+
+Este projeto foi desenvolvido como trabalho acadêmico, mas contribuições, melhorias e feedbacks são bem-vindos.
