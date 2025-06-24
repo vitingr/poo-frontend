@@ -1,6 +1,8 @@
 export interface Checkout {
-  created_at: string
+  checkout_date: string
+  guest_id: string
+  id: string
   reservation_id: string
   room_id: string
-  user_id: string
+  total_price: number
 }

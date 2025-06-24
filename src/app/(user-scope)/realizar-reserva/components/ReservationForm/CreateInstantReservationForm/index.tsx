@@ -68,7 +68,8 @@ export const CreateInstantReservationForm: FC<CreateCheckinFormProps> = ({
             room_id,
             guest_id,
             start_date: new Date().toISOString().slice(0, 19),
-            end_date: date.toISOString().slice(0, 19)
+            end_date: date.toISOString().slice(0, 19),
+            reservationType
           },
           token: ''
         }

@@ -5,7 +5,14 @@ export interface BaseCheckinData {
 }
 
 export interface CreateCheckinData extends BaseCheckinData {
-  payload: Pick<Checkin, 'room_id' | 'user_id'>
+  payload: Pick<
+    Checkin,
+    | 'room_id'
+    | 'guest_id'
+    | 'checkin_date'
+    | 'checkout_estimated'
+    | 'reservation_id'
+  >
 }
 
 export interface GetCheckinData extends BaseCheckinData {

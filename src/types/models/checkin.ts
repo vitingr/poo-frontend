@@ -1,6 +1,8 @@
 export interface Checkin {
-  created_at: string
+  checkin_date: string
+  checkout_estimated: string
+  guest_id: string
+  id: string
   reservation_id: string
   room_id: string
-  user_id: string
 }

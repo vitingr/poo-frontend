@@ -27,7 +27,7 @@ export class Reservations {
       })
     } catch (error) {
       console.error({ createReservationErrMessage: error.message })
-      return { status: 500 }
+      return { status: 500, data: {} as Reservation }
     }
   }
 

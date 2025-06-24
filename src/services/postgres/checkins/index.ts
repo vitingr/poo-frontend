@@ -1,6 +1,6 @@
 import type { AxiosInstance } from 'axios'
 
-import type { Checkin } from '@/app/(user-scope)/checkins-recentes/components/Table'
+import type { Checkin } from '@/types/models/checkin'
 
 import type {
   BaseCheckinData,

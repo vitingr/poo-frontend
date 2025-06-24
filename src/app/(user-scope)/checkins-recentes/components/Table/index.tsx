@@ -23,6 +23,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
+import type { Checkin } from '@/types/models/checkin'
 import type {
   ColumnDef,
   ColumnFiltersState,
@@ -37,18 +38,6 @@ import {
   getSortedRowModel,
   useReactTable
 } from '@tanstack/react-table'
-
-export type Checkin = {
-  guest_name: string
-  room: string
-  checkin_time: string
-  checkout_estimated: string
-  status: string
-  nights: number
-  price_per_night: number
-  total_price: number
-  payment_status: string
-}
 
 export const columns: ColumnDef<Checkin>[] = [
   {
@@ -147,15 +136,15 @@ export const columns: ColumnDef<Checkin>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>Ações</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(checkin.guest_name)}
+              onClick={() => navigator.clipboard.writeText(checkin.guest_id)}
             >
-              Copy guest name
+              Copiar ID do hóspede
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View details</DropdownMenuItem>
-            <DropdownMenuItem>Contact guest</DropdownMenuItem>
+            <DropdownMenuItem>Ver detalhes</DropdownMenuItem>
+            <DropdownMenuItem>Entrar em contato</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
