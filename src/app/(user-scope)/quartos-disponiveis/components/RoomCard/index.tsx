@@ -28,9 +28,15 @@ export const RoomCard: FC<RoomCardProps> = async ({ room }) => {
               Standard
             </span>
           )}
-          <span className="-ml-1 w-fit rounded-md bg-blue-50 px-3 py-0.5 text-center text-[10px] text-blue-500 uppercase">
-            Disponível
-          </span>
+          {!room.is_available ? (
+            <span className="-ml-1 w-fit rounded-md bg-red-50 px-3 py-0.5 text-center text-[10px] text-red-500 uppercase">
+              Ocupado
+            </span>
+          ) : (
+            <span className="-ml-1 w-fit rounded-md bg-blue-50 px-3 py-0.5 text-center text-[10px] text-blue-500 uppercase">
+              Disponível
+            </span>
+          )}
         </div>
         <article className="flex w-full flex-col">
           <h3 className="text-xl font-semibold">{room.room_code}</h3>

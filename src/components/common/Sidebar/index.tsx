@@ -100,12 +100,12 @@ const data = {
           url: '/reservas'
         },
         {
-          title: 'Realizar Checkin',
+          title: 'Nova Reserva',
           url: '/realizar-reserva'
         },
         {
           title: 'Todos Checkins',
-          url: '/todos-checkins'
+          url: '/checkins'
         },
         {
           title: 'Cancelamentos',
@@ -132,17 +132,17 @@ const data = {
   projects: [
     {
       name: 'Gestão de Quartos',
-      url: '#',
+      url: '/todos-quartos',
       icon: Frame
     },
     {
       name: 'Gestão de Reservas',
-      url: '#',
+      url: '/reservas',
       icon: PieChart
     },
     {
       name: 'Relatórios & Análises',
-      url: '#',
+      url: '/',
       icon: Map
     }
   ]

@@ -65,62 +65,39 @@ export const columns: ColumnDef<Checkin>[] = [
   },
   {
     accessorKey: 'guest_name',
-    header: 'Guest',
+    header: 'Hóspede',
     cell: ({ row }) => (
       <div className="font-medium">{row.getValue('guest_name')}</div>
     )
   },
   {
-    accessorKey: 'room',
-    header: 'Room',
-    cell: ({ row }) => <div>{row.getValue('room')}</div>
+    accessorKey: 'room_id',
+    header: 'Quarto',
+    cell: ({ row }) => <div>{row.getValue('room_id')}</div>
   },
   {
-    accessorKey: 'checkin_time',
-    header: 'Check-In',
-    cell: ({ row }) => <div>{row.getValue('checkin_time')}</div>
-  },
-  {
-    accessorKey: 'checkout_estimated',
-    header: 'Checkout Est.',
-    cell: ({ row }) => <div>{row.getValue('checkout_estimated')}</div>
-  },
-  {
-    accessorKey: 'status',
-    header: 'Status',
-    cell: ({ row }) => (
-      <div
-        className={`capitalize ${row.getValue('status') === 'Checked In' ? 'text-green-600' : 'text-muted-foreground'}`}
-      >
-        {row.getValue('status')}
-      </div>
-    )
-  },
-  {
-    accessorKey: 'payment_status',
-    header: 'Payment',
-    cell: ({ row }) => (
-      <div
-        className={`capitalize ${row.getValue('payment_status') === 'Paid' ? 'text-green-600' : 'text-yellow-600'}`}
-      >
-        {row.getValue('payment_status')}
-      </div>
-    )
-  },
-  {
-    accessorKey: 'total_price',
+    accessorKey: 'checkin_date',
     header: ({ column }) => (
       <Button
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         variant="ghost"
       >
-        Total ($)
+        Check-In
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
-    cell: ({ row }) => (
-      <div className="text-right">${row.getValue('total_price')}</div>
-    )
+    cell: ({ row }) => {
+      const date = new Date(row.getValue('checkin_date'))
+      return <div>{date.toLocaleString()}</div>
+    }
+  },
+  {
+    accessorKey: 'checkout_estimated',
+    header: 'Checkout Est.',
+    cell: ({ row }) => {
+      const date = new Date(row.getValue('checkout_estimated'))
+      return <div>{date.toLocaleString()}</div>
+    }
   },
   {
     id: 'actions',
@@ -196,12 +173,12 @@ export const LatestCheckinsTable = ({ data }: { data: Checkin[] }) => {
             (table.getColumn('guest_name')?.getFilterValue() as string) ?? ''
           }
           className="max-w-sm"
-          placeholder="Filter guests..."
+          placeholder="Filtrar hóspedes..."
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className="ml-auto" variant="outline">
-              Columns <ChevronDown />
+              Colunas <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

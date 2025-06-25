@@ -17,8 +17,8 @@ export const Dashboards: FC = () => {
           <div className="flex w-full flex-col gap-8 lg:flex-row">
             <div className="flex w-full flex-col gap-4 2xl:max-w-[900px]">
               <div className="flex w-full flex-col gap-4 rounded-md border border-neutral-200 bg-white p-6 2xl:w-auto 2xl:min-w-[260px]">
-                <figure>
-                  <Door className="h-7 w-7 text-neutral-600" />
+                <figure className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-50">
+                  <Door className="h-6 w-6 text-indigo-500" />
                 </figure>
                 <article className="flex flex-col gap-1">
                   <p className="text-sm text-neutral-500">
@@ -28,8 +28,8 @@ export const Dashboards: FC = () => {
                 </article>
               </div>
               <div className="flex w-full flex-col gap-4 rounded-md border border-neutral-200 bg-white p-6 2xl:w-auto 2xl:min-w-[260px]">
-                <figure>
-                  <Checkout className="h-7 w-7 text-neutral-600" />
+                <figure className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-50">
+                  <Checkout className="h-6 w-6 text-indigo-500" />
                 </figure>
                 <article className="flex flex-col gap-1">
                   <p className="text-sm text-neutral-500">Check-ins Hoje</p>
@@ -53,8 +53,8 @@ export const Dashboards: FC = () => {
             </div>
             <div className="flex w-full flex-col gap-4 2xl:w-auto">
               <div className="flex w-full flex-col gap-4 rounded-md border border-neutral-200 bg-white p-6 2xl:w-auto 2xl:min-w-[260px]">
-                <figure>
-                  <Door className="h-7 w-7 text-neutral-600" />
+                <figure className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-50">
+                  <Door className="h-6 w-6 text-indigo-500" />
                 </figure>
                 <article className="flex flex-col gap-1">
                   <p className="text-sm text-neutral-500">
@@ -64,8 +64,8 @@ export const Dashboards: FC = () => {
                 </article>
               </div>
               <div className="flex w-full flex-col gap-4 rounded-md border border-neutral-200 bg-white p-6 2xl:w-auto 2xl:min-w-[260px]">
-                <figure>
-                  <Checkout className="h-7 w-7 text-neutral-600" />
+                <figure className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-50">
+                  <Checkout className="h-6 w-6 text-indigo-500" />
                 </figure>
                 <article className="flex flex-col gap-1">
                   <p className="text-sm text-neutral-500">

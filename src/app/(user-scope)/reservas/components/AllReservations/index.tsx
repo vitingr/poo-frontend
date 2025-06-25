@@ -1,10 +1,12 @@
+'use client'
+
 import type { FC } from 'react'
 
 import { useGetAllReservations } from '@/hooks/swr/useGetAllReservations'
 
 import { ReservationsTable } from '../Table'
 
-export const AllReservations: FC = async () => {
+export const AllReservations: FC = () => {
   const { reservations } = useGetAllReservations()
 
   return (

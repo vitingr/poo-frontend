@@ -96,7 +96,7 @@ export const columns: ColumnDef<Reservation>[] = [
       const status = row.getValue('status')
       return (
         <div
-          className={`capitalize ${status === 'active' ? 'text-green-600' : 'text-gray-500'}`}
+          className={`capitalize ${status === 'active' ? 'text-blue-600' : 'text-gray-500'}`}
         >
           {String(status)}
         </div>
@@ -117,10 +117,11 @@ export const columns: ColumnDef<Reservation>[] = [
       const reservation = row.original
 
       const today = new Date()
+      const normalizeDate = (date: Date) =>
+        new Date(date.getFullYear(), date.getMonth(), date.getDate())
+
       const isSameDay = (a: Date, b: Date) =>
-        a.getFullYear() === b.getFullYear() &&
-        a.getMonth() === b.getMonth() &&
-        a.getDate() === b.getDate()
+        normalizeDate(a).getTime() === normalizeDate(b).getTime()
 
       const checkInDate = new Date(reservation.start_date)
       const checkOutDate = new Date(reservation.end_date)

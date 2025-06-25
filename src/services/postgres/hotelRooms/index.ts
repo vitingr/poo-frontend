@@ -28,7 +28,7 @@ export class HotelRooms {
       })
     } catch (error) {
       console.error({ createHotelRoomsErrMessage: error.message })
-      return { status: 500 }
+      return { status: 500, data: {} as HotelRoom }
     }
   }
 
@@ -41,6 +41,7 @@ export class HotelRooms {
       })
     } catch (error) {
       console.error({ getAllHotelRoomsErrMessage: error.message })
+      return { status: 500, data: {} as GetAllHotelRoomsResponse }
     }
   }
 
@@ -56,6 +57,7 @@ export class HotelRooms {
       )
     } catch (error) {
       console.error({ getAllHotelRoomsErrMessage: error.message })
+      return { status: 500, data: {} as GetGroupedHotelRoomsResponse }
     }
   }
 
@@ -71,6 +73,7 @@ export class HotelRooms {
       )
     } catch (error) {
       console.error({ getHotelRoomErrMessage: error.message })
+      return { status: 500, data: {} as HotelRoom }
     }
   }
 
@@ -87,6 +90,7 @@ export class HotelRooms {
       )
     } catch (error) {
       console.error({ updateHotelRoomErrMessage: error.message })
+      return { status: 500 }
     }
   }
 
@@ -101,7 +105,40 @@ export class HotelRooms {
         }
       )
     } catch (error) {
-      console.error({ deletHotelRoomErrMessage: error.message })
+      console.error({ deleteHotelRoomErrMessage: error.message })
+      return { status: 500 }
+    }
+  }
+
+  getHotelRoomsInUse = async ({ token }) => {
+    try {
+      return await this.instance.get<GetGroupedHotelRoomsResponse>(
+        `/hotel-rooms/available-rooms`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      )
+    } catch (error) {
+      console.error({ getAvailableHotelRoomsInUse: error })
+      return { status: 500, data: [] as GetGroupedHotelRoomsResponse }
+    }
+  }
+
+  getHotelRoomsNotInUse = async ({ token }) => {
+    try {
+      return await this.instance.get<GetGroupedHotelRoomsResponse>(
+        `/hotel-rooms/unavailable-rooms`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      )
+    } catch (error) {
+      console.error({ getUnavailableHotelRoomsInUse: error })
+      return { status: 500, data: [] as GetGroupedHotelRoomsResponse }
     }
   }
 }

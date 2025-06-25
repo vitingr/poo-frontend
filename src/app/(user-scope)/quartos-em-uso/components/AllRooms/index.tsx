@@ -5,7 +5,7 @@ import { motor } from '@/instances/motor'
 import { RoomCard } from '../RoomCard'
 
 export const AllRooms: FC = async () => {
-  const { data } = await motor.hotelRooms.getGroupedHotelRooms({ token: '' })
+  const { data } = await motor.hotelRooms.getHotelRoomsInUse({ token: '' })
 
   return (
     <section className="flex w-full flex-col gap-12 px-3 py-10 sm:px-4 md:px-6 lg:p-8 lg:py-12 xl:gap-16 xl:p-12">
