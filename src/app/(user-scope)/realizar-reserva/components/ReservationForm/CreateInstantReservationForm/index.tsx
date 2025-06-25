@@ -61,6 +61,13 @@ export const CreateInstantReservationForm: FC<CreateCheckinFormProps> = ({
     guest_id
   }) => {
     try {
+      if (!date) {
+        toast.error(
+          'Ops... Você deve preencher todos os campos antes de continuar!'
+        )
+        return
+      }
+
       const { status } = await axios.post(
         '/api/reservations/create-reservation',
         {

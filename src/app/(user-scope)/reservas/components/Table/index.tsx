@@ -8,9 +8,6 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
@@ -105,25 +102,48 @@ export const columns: ColumnDef<Reservation>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const reservation = row.original
+
+      const today = new Date()
+      const isSameDay = (a: Date, b: Date) =>
+        a.getFullYear() === b.getFullYear() &&
+        a.getMonth() === b.getMonth() &&
+        a.getDate() === b.getDate()
+
+      const checkInDate = new Date(reservation.start_date)
+      const checkOutDate = new Date(reservation.end_date)
+
+      const canCheckIn = isSameDay(today, checkInDate)
+      const canCheckOut =
+        reservation.status === 'ACTIVE' && isSameDay(today, checkOutDate)
+
+      const handleCheckIn = () => {
+        console.log(`Realizando check-in da reserva ${reservation.id}`)
+      }
+
+      const handleCheckOut = () => {
+        console.log(`Realizando check-out da reserva ${reservation.id}`)
+      }
+
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className="h-8 w-8 p-0" variant="ghost">
-              <span className="sr-only">Abrir menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Ações</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(reservation.id)}
+        <div className="flex gap-2">
+          {!canCheckOut && (
+            <Button
+              className="disabled:bg-neutral-400"
+              disabled={!canCheckIn || reservation.status !== 'PENDING'}
+              onClick={handleCheckIn}
+              size="sm"
+              variant="default"
             >
-              Copiar ID da reserva
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Ver detalhes</DropdownMenuItem>
-            <DropdownMenuItem>Entrar em contato</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+              Fazer Check-in
+            </Button>
+          )}
+
+          {canCheckOut && (
+            <Button onClick={handleCheckOut} size="sm" variant="default">
+              Fazer Check-out
+            </Button>
+          )}
+        </div>
       )
     }
   }
@@ -219,7 +239,7 @@ export const ReservationsTable = ({ data }: { data: Reservation[] }) => {
                   key={row.id}
                 >
                   {row.getVisibleCells().map(cell => (
-                    <TableCell key={cell.id}>
+                    <TableCell className="last:max-w-[80px]" key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

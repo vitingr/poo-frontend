@@ -5,16 +5,16 @@ import { motor } from '@/instances/motor'
 
 export const GET = async (req: NextRequest) => {
   try {
-    const { data } = await motor.guests.getAllGuests({ token: '' })
+    const { data } = await motor.reservations.getAllReservations({ token: '' })
 
     return NextResponse.json(data, { status: 200 })
   } catch (err) {
     console.error({
-      'GET/api/guests/get-all-guests': err.message
+      'GET/api/reservations/get-all-reservations': err.message
     })
 
     return NextResponse.json(
-      { message: 'Error! Any guest found' },
+      { message: 'Error! Any reservation found' },
       { status: 500 }
     )
   }

@@ -62,6 +62,13 @@ export const CreateDefaultReservationForm: FC<CreateCheckinFormProps> = ({
     guest_id
   }) => {
     try {
+      if (!checkinDate || !checkoutDate) {
+        toast.error(
+          'Ops... Você deve preencher todos os campos antes de continuar!'
+        )
+        return
+      }
+
       const { status } = await axios.post(
         '/api/reservations/create-reservation',
         {
@@ -170,7 +177,9 @@ export const CreateDefaultReservationForm: FC<CreateCheckinFormProps> = ({
             </div>
 
             <div className="flex flex-col gap-2">
-              <p className="text-sm text-neutral-700">Data de Nascimento</p>
+              <p className="text-sm text-neutral-700">
+                Data Esperada de Checkin
+              </p>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button

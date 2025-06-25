@@ -3,6 +3,6 @@ export interface Reservation {
   id: string
   room_id: string
   start_date: string
-  status: 'finished' | 'active'
+  status: 'FINISHED' | 'ACTIVE' | 'PENDING'
   user_id: string
 }

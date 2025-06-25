@@ -8,8 +8,10 @@ export const GET = async (req: NextRequest) => {
     const { data } = await motor.hotelRooms.getAllHotelRooms({ token: '' })
 
     return NextResponse.json(data, { status: 200 })
-  } catch (getAllGuestsErr) {
-    console.error(getAllGuestsErr)
+  } catch (err) {
+    console.error({
+      'GET/api/rooms/get-all-rooms': err.message
+    })
 
     return NextResponse.json(
       { message: 'Error! Any hotel room found' },

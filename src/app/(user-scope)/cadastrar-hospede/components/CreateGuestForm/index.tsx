@@ -40,6 +40,13 @@ export const CreateGuestForm: FC = () => {
 
   const onSubmit: SubmitHandler<CreateGuestInputs> = async payload => {
     try {
+      if (!date) {
+        toast.error(
+          'Ops... Você deve preencher todos os campos antes de continuar!'
+        )
+        return
+      }
+
       const { status } = await axios.post('/api/guests/create-guest', {
         payload: { ...payload, birth_date: date },
         token: ''

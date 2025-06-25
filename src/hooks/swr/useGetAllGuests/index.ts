@@ -3,7 +3,6 @@ import useSWR from 'swr'
 
 const fetcher = async () => {
   const { data } = await axios.get(`/api/guests/get-all-guests`)
-  console.log(data)
 
   return data
 }
