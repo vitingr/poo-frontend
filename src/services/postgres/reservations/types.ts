@@ -5,7 +5,7 @@ export interface BaseReservationData {
 }
 
 export interface CreateReservationData extends BaseReservationData {
-  payload: Pick<Reservation, 'room_id' | 'status' | 'end_date' | 'user_id'>
+  payload: Pick<Reservation, 'room_id' | 'status' | 'end_date' | 'guest_id'>
 }
 
 export interface GetReservationData extends BaseReservationData {

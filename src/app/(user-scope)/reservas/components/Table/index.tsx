@@ -1,6 +1,8 @@
 'use client'
 
-import * as React from 'react'
+import axios from 'axios'
+import { useState } from 'react'
+import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -19,6 +21,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
+import { useGetAllReservations } from '@/hooks/swr/useGetAllReservations'
 import type { Reservation } from '@/types/models/reservation'
 import type {
   ColumnDef,
@@ -34,6 +37,9 @@ import {
   getSortedRowModel,
   useReactTable
 } from '@tanstack/react-table'
+
+import { CheckinRealized } from './CheckinRealized'
+import { CheckoutRealized } from './CheckoutRealized'
 
 export const columns: ColumnDef<Reservation>[] = [
   {
@@ -101,6 +107,13 @@ export const columns: ColumnDef<Reservation>[] = [
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
+      const { mutate } = useGetAllReservations()
+
+      const [isCheckinFeedbackOpen, setIsCheckinFeedbackOpen] =
+        useState<boolean>(false)
+      const [isCheckoutFeedbackOpen, setIsCheckoutFeedbackOpen] =
+        useState<boolean>(false)
+
       const reservation = row.original
 
       const today = new Date()
@@ -116,12 +129,54 @@ export const columns: ColumnDef<Reservation>[] = [
       const canCheckOut =
         reservation.status === 'ACTIVE' && isSameDay(today, checkOutDate)
 
-      const handleCheckIn = () => {
-        console.log(`Realizando check-in da reserva ${reservation.id}`)
+      const handleCheckIn = async () => {
+        try {
+          const { status } = await axios.post('/api/checkins/create-checkin', {
+            token: '',
+            payload: {
+              room_id: reservation.room_id,
+              guest_id: reservation.guest_id,
+              checkin_date: new Date().toISOString(),
+              checkout_estimated: reservation.end_date,
+              reservation_id: reservation.id
+            }
+          })
+
+          if (status !== 200) {
+            toast.error('Ops! Não foi possível realizar o Checkin...')
+            return
+          }
+
+          mutate()
+          setIsCheckinFeedbackOpen(true)
+        } catch (error) {
+          console.error(error)
+        }
       }
 
-      const handleCheckOut = () => {
-        console.log(`Realizando check-out da reserva ${reservation.id}`)
+      const handleCheckOut = async () => {
+        try {
+          const { status } = await axios.post('/api/checkout/create-checkout', {
+            token: '',
+            payload: {
+              room_id: reservation.room_id,
+              guest_id: reservation.guest_id,
+              checkout_date: new Date().toISOString(),
+              total_price: reservation?.total_price | 100,
+              reservation_id: reservation.id
+            }
+          })
+
+          if (status !== 200) {
+            toast.error('Ops! Não foi possível realizar o Checkout...')
+            return
+          }
+
+          mutate()
+          setIsCheckoutFeedbackOpen(true)
+        } catch (error) {
+          console.error(error)
+        }
       }
 
       return (
@@ -143,6 +198,15 @@ export const columns: ColumnDef<Reservation>[] = [
               Fazer Check-out
             </Button>
           )}
+
+          <CheckoutRealized
+            isOpen={isCheckoutFeedbackOpen}
+            setIsOpen={setIsCheckoutFeedbackOpen}
+          />
+          <CheckinRealized
+            isOpen={isCheckinFeedbackOpen}
+            setIsOpen={setIsCheckinFeedbackOpen}
+          />
         </div>
       )
     }
@@ -150,13 +214,10 @@ export const columns: ColumnDef<Reservation>[] = [
 ]
 
 export const ReservationsTable = ({ data }: { data: Reservation[] }) => {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = useState({})
 
   const table = useReactTable({
     data,

@@ -1,11 +1,11 @@
 import type { FC } from 'react'
 
-import { motor } from '@/instances/motor'
+import { useGetAllReservations } from '@/hooks/swr/useGetAllReservations'
 
 import { ReservationsTable } from '../Table'
 
 export const AllReservations: FC = async () => {
-  const { data } = await motor.reservations.getAllReservations({ token: '' })
+  const { reservations } = useGetAllReservations()
 
   return (
     <section className="flex w-full flex-col gap-12 bg-neutral-50 px-3 py-10 sm:px-4 md:px-6 lg:p-8 lg:py-12 xl:p-12">
@@ -17,7 +17,7 @@ export const AllReservations: FC = async () => {
             nosso sistema
           </p>
         </article>
-        <ReservationsTable data={data} />
+        <ReservationsTable data={reservations} />
       </div>
     </section>
   )
