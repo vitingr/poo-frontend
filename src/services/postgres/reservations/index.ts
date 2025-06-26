@@ -4,6 +4,7 @@ import type { Reservation } from '@/types/models/reservation'
 
 import type {
   BaseReservationData,
+  CancelReservationData,
   CreateReservationData,
   DeleteReservationData,
   GetAllReservationsResponse,
@@ -78,6 +79,27 @@ export class Reservations {
       )
     } catch (error) {
       console.error({ updateReservationErrMessage: error.message })
+      return { status: 500 }
+    }
+  }
+
+  cancelReservation = async ({
+    token,
+    reservationId
+  }: CancelReservationData) => {
+    try {
+      return await this.instance.patch<void>(
+        `/reservations/cancel-reservation/${reservationId.toString()}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      )
+    } catch (error) {
+      console.error({ cancelReservationErrMessage: error.message })
+      return { status: 500 }
     }
   }
 

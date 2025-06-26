@@ -7,7 +7,7 @@ export interface Reservation {
   room_code?: string
   room_id: string
   start_date: string
-  status: 'FINISHED' | 'ACTIVE' | 'PENDING'
+  status: 'FINISHED' | 'ACTIVE' | 'PENDING' | 'CANCELED'
   total_price?: number
   updated_at: string
 }

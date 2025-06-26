@@ -1,6 +1,7 @@
 'use client'
 
 import { ChevronDown, MoreHorizontal } from 'lucide-react'
+import Link from 'next/link'
 import * as React from 'react'
 import { useState } from 'react'
 
@@ -41,7 +42,6 @@ import {
 } from '@tanstack/react-table'
 
 import { EditGuest } from './EditGuest'
-import Link from 'next/link'
 
 export const guestColumns: ColumnDef<Guest>[] = [
   {

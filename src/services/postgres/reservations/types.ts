@@ -21,4 +21,8 @@ export interface UpdateReservationData extends BaseReservationData {
   reservationId: string
 }
 
+export interface CancelReservationData extends BaseReservationData {
+  reservationId: string
+}
+
 export type GetAllReservationsResponse = Reservation[]

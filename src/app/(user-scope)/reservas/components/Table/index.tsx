@@ -1,6 +1,7 @@
 'use client'
 
 import axios from 'axios'
+import { MoreHorizontal } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -10,6 +11,8 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
@@ -40,6 +43,7 @@ import {
 
 import { CheckinRealized } from './CheckinRealized'
 import { CheckoutRealized } from './CheckoutRealized'
+import { ConfirmCancelReservation } from './ConfirmCancelReservation'
 
 export const columns: ColumnDef<Reservation>[] = [
   {
@@ -96,7 +100,7 @@ export const columns: ColumnDef<Reservation>[] = [
       const status = row.getValue('status')
       return (
         <div
-          className={`w-fit rounded-sm px-2 py-1.5 text-center capitalize ${status === 'ACTIVE' ? 'bg-blue-50 text-blue-500' : status === 'FINISHED' ? 'bg-green-50 text-green-800' : 'bg-neutral-100 text-gray-500'}`}
+          className={`w-fit rounded-sm px-2 py-1.5 text-center capitalize ${status === 'ACTIVE' ? 'bg-blue-50 text-blue-500' : status === 'FINISHED' ? 'bg-green-50 text-green-800' : status === 'CANCELED' ? 'bg-red-50 text-red-800' : 'bg-neutral-100 text-gray-500'}`}
         >
           {String(status)}
         </div>
@@ -240,6 +244,18 @@ export const columns: ColumnDef<Reservation>[] = [
             </Button>
           )}
 
+          {reservation.status === 'CANCELED' && (
+            <Button
+              className="cursor-pointer disabled:bg-neutral-400"
+              disabled={reservation.status === 'CANCELED'}
+              onClick={handleCheckIn}
+              size="sm"
+              variant="default"
+            >
+              Cancelada
+            </Button>
+          )}
+
           <CheckoutRealized
             isOpen={isCheckoutFeedbackOpen}
             setIsOpen={setIsCheckoutFeedbackOpen}
@@ -249,6 +265,51 @@ export const columns: ColumnDef<Reservation>[] = [
             setIsOpen={setIsCheckinFeedbackOpen}
           />
         </div>
+      )
+    }
+  },
+  {
+    id: 'more',
+    enableHiding: false,
+    cell: ({ row }) => {
+      const reservation = row.original
+      const [isOpen, setIsOpen] = useState(false)
+
+      return (
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="h-8 w-8 p-0" variant="ghost">
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Ações</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => {
+                  if (
+                    reservation.status === 'CANCELED' ||
+                    reservation.status === 'FINISHED'
+                  ) {
+                    toast.error(
+                      'Não é possível cancelar uma reserva já finalizada'
+                    )
+                    return
+                  }
+                  setIsOpen(true)
+                }}
+                className="cursor-pointer"
+              >
+                Cancelar
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <ConfirmCancelReservation
+            isOpen={isOpen}
+            reservation={reservation}
+            setIsOpen={setIsOpen}
+          />
+        </>
       )
     }
   }
