@@ -1,0 +1,1 @@
+export const ACCESS_TOKEN_EXPIRES_PERIOD = 1000 * 60 * 60 * 24 * 365

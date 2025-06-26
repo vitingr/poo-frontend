@@ -1,9 +1,42 @@
+'use client'
+
+import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 import type { FC } from 'react'
+import type { SubmitHandler } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
 import { Logo } from '@/assets/brands/Logo'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-export const LoginForm: FC = async () => {
+import { loginSchema } from './schema'
+import type { LoginInputs } from './types'
+
+export const LoginForm: FC = () => {
+  const {
+    handleSubmit,
+    formState: {}
+  } = useForm<LoginInputs>({
+    resolver: zodResolver(loginSchema)
+  })
+
+  const onSubmit: SubmitHandler<LoginInputs> = async ({ email, password }) => {
+    try {
+      const response = await signIn('credentials', {
+        email,
+        password
+      })
+
+      if (!response.error) {
+        throw new Error(response.error)
+      }
+    } catch (err) {
+      console.error({
+        'Error during login: ': err.message
+      })
+    }
+  }
+
   return (
     <div className="flex w-full lg:min-h-[100vh] lg:justify-between">
       <section className="flex w-full max-w-[40%] items-center bg-white px-4 py-12 lg:py-16 2xl:max-w-[35%]">
@@ -18,7 +51,10 @@ export const LoginForm: FC = async () => {
               nossa plataforma.
             </p>
           </article>
-          <form className="flex w-full flex-col gap-4 rounded-xl bg-white">
+          <form
+            className="flex w-full flex-col gap-4 rounded-xl bg-white"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <div className="flex flex-col gap-1">
               <label className="text-sm text-neutral-500">Email</label>
               <input
