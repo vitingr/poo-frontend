@@ -149,7 +149,9 @@ export const CreateInstantReservationForm: FC<CreateCheckinFormProps> = ({
             </div>
 
             <div className="flex flex-col gap-2">
-              <p className="text-sm text-neutral-700">Data de Nascimento</p>
+              <p className="text-sm text-neutral-700">
+                Data Esperada de Checkout
+              </p>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button

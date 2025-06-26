@@ -27,6 +27,7 @@ export class Checkouts {
       })
     } catch (error) {
       console.error({ createCheckoutErrMessage: error.message })
+      return { status: 500 }
     }
   }
 

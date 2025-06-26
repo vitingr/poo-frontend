@@ -347,10 +347,11 @@ body {
     position: relative;
     overflow: hidden;
     transition-duration: 0.3s;
-    background: #8b5cf6;
-    background: linear-gradient(250deg,
-    #9333ea,
-    #d946ef);
+    background: #27272a;
+    /* background: #2f31b3; */
+    /* background: linear-gradient(250deg,
+    #3949db,
+    #4681ef); */
   }
 
   .sign {

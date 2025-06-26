@@ -1,8 +1,7 @@
 'use client'
 
-import { ChevronDown, MoreHorizontal } from 'lucide-react'
+import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
-import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -24,7 +23,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import type { Guest } from '@/types/models/guest'
+import type { Checkout } from '@/types/models/checkout'
 import type {
   ColumnDef,
   ColumnFiltersState,
@@ -40,10 +39,7 @@ import {
   useReactTable
 } from '@tanstack/react-table'
 
-import { EditGuest } from './EditGuest'
-import Link from 'next/link'
-
-export const guestColumns: ColumnDef<Guest>[] = [
+export const columns: ColumnDef<Checkout>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -68,107 +64,83 @@ export const guestColumns: ColumnDef<Guest>[] = [
     enableHiding: false
   },
   {
-    accessorKey: 'full_name',
-    header: 'Nome Completo',
+    accessorKey: 'guest_name',
+    header: 'Hóspede',
     cell: ({ row }) => (
-      <div className="font-medium">{row.getValue('full_name')}</div>
+      <div className="font-medium">{row.getValue('guest_name')}</div>
     )
   },
   {
-    accessorKey: 'document',
-    header: 'Documento',
-    cell: ({ row }) => <div>{row.getValue('document')}</div>
+    accessorKey: 'room_code',
+    header: 'Quarto',
+    cell: ({ row }) => <div>{row.getValue('room_code')}</div>
   },
   {
-    accessorKey: 'email',
-    header: 'Email',
-    cell: ({ row }) => <div>{row.getValue('email')}</div>
-  },
-  {
-    accessorKey: 'phone',
-    header: 'Telefone',
-    cell: ({ row }) => <div>{row.getValue('phone')}</div>
-  },
-  {
-    accessorKey: 'birth_date',
-    header: 'Data de Nascimento',
+    accessorKey: 'checkout_date',
+    header: ({ column }) => (
+      <Button
+        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        variant="ghost"
+      >
+        Checkout
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => {
-      const date = new Date(row.getValue('birth_date'))
-      return <div>{date.toLocaleDateString()}</div>
+      const date = new Date(row.getValue('checkout_date'))
+      return <div>{date.toLocaleString()}</div>
     }
   },
   {
-    accessorKey: 'is_active',
-    header: 'Status',
-    cell: ({ row }) => (
-      <div
-        className={`capitalize ${
-          row.getValue('is_active')
-            ? 'w-fit rounded-sm bg-blue-50 px-3 py-1 text-blue-500'
-            : 'w-fit rounded-sm bg-neutral-100 px-3 py-1 text-neutral-600'
-        }`}
-      >
-        {row.getValue('is_active') ? 'Active' : 'Inactive'}
-      </div>
-    )
+    accessorKey: 'total_price',
+    header: 'Total',
+    cell: ({ row }) => {
+      const price = row.getValue('total_price') as number
+      return <div>R$ {price.toFixed(2)}</div>
+    }
   },
   {
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
-      const guest = row.original
-      const [isOpen, setIsOpen] = useState(false)
-
+      const checkout = row.original
       return (
-        <>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button className="h-8 w-8 p-0" variant="ghost">
-                <MoreHorizontal />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Ações</DropdownMenuLabel>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => navigator.clipboard.writeText(guest.email)}
-              >
-                Copiar email
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => navigator.clipboard.writeText(guest.document)}
-              >
-                Copiar documento
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">
-                <Link href={`tel:+${guest.phone}`}>Entrar em contato</Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => setIsOpen(true)}
-              >
-                Editar
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <EditGuest guest={guest} isOpen={isOpen} setIsOpen={setIsOpen} />
-        </>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className="h-8 w-8 p-0" variant="ghost">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Ações</DropdownMenuLabel>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(checkout.guest_id)}
+            >
+              Copiar ID do hóspede
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Ver recibo</DropdownMenuItem>
+            <DropdownMenuItem>Contatar hóspede</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       )
     }
   }
 ]
 
-export const GuestsTable = ({ data }: { data: Guest[] }) => {
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = useState({})
+export const LatestCheckoutsTable = ({ data }: { data: Checkout[] }) => {
+  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  )
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({
     data,
-    columns: guestColumns,
+    columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -195,10 +167,10 @@ export const GuestsTable = ({ data }: { data: Guest[] }) => {
       <div className="flex items-center py-4">
         <Input
           onChange={event =>
-            table.getColumn('full_name')?.setFilterValue(event.target.value)
+            table.getColumn('guest_name')?.setFilterValue(event.target.value)
           }
           value={
-            (table.getColumn('full_name')?.getFilterValue() as string) ?? ''
+            (table.getColumn('guest_name')?.getFilterValue() as string) ?? ''
           }
           className="max-w-sm"
           placeholder="Filtrar hóspedes..."
@@ -265,9 +237,9 @@ export const GuestsTable = ({ data }: { data: Guest[] }) => {
               <TableRow>
                 <TableCell
                   className="h-24 text-center"
-                  colSpan={guestColumns.length}
+                  colSpan={columns.length}
                 >
-                  No results.
+                  Ops, não encontramos nenhum resultado.
                 </TableCell>
               </TableRow>
             )}
@@ -276,8 +248,8 @@ export const GuestsTable = ({ data }: { data: Guest[] }) => {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="text-muted-foreground flex-1 text-sm">
-          {table.getFilteredSelectedRowModel().rows.length} of{' '}
-          {table.getFilteredRowModel().rows.length} coluna(s) selecionada(s).
+          {table.getFilteredSelectedRowModel().rows.length} de{' '}
+          {table.getFilteredRowModel().rows.length} selecionadas.
         </div>
         <div className="space-x-2">
           <Button

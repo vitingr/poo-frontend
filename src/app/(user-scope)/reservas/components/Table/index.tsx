@@ -66,13 +66,13 @@ export const columns: ColumnDef<Reservation>[] = [
     enableHiding: false
   },
   {
-    accessorKey: 'id',
-    header: 'ID da Reserva',
+    accessorKey: 'guest_name',
+    header: 'Nome do Hóspede',
     cell: info => <div className="font-medium">{String(info.getValue())}</div>
   },
   {
-    accessorKey: 'room_id',
-    header: 'ID do Quarto',
+    accessorKey: 'room_code',
+    header: 'Quarto Hospedado',
     cell: info => <div>{String(info.getValue())}</div>
   },
   {
@@ -96,7 +96,7 @@ export const columns: ColumnDef<Reservation>[] = [
       const status = row.getValue('status')
       return (
         <div
-          className={`capitalize ${status === 'active' ? 'text-blue-600' : 'text-gray-500'}`}
+          className={`w-fit rounded-sm px-2 py-1.5 text-center capitalize ${status === 'ACTIVE' ? 'bg-blue-50 text-blue-500' : status === 'FINISHED' ? 'bg-green-50 text-green-800' : 'bg-neutral-100 text-gray-500'}`}
         >
           {String(status)}
         </div>
@@ -124,11 +124,10 @@ export const columns: ColumnDef<Reservation>[] = [
         normalizeDate(a).getTime() === normalizeDate(b).getTime()
 
       const checkInDate = new Date(reservation.start_date)
-      const checkOutDate = new Date(reservation.end_date)
+      // const checkOutDate = new Date(reservation.end_date)
 
       const canCheckIn = isSameDay(today, checkInDate)
-      const canCheckOut =
-        reservation.status === 'ACTIVE' && isSameDay(today, checkOutDate)
+      const canCheckOut = reservation.status !== 'FINISHED'
 
       const handleCheckIn = async () => {
         try {
@@ -137,7 +136,7 @@ export const columns: ColumnDef<Reservation>[] = [
             payload: {
               room_id: reservation.room_id,
               guest_id: reservation.guest_id,
-              checkin_date: new Date().toISOString(),
+              checkin_date: new Date().toISOString().slice(0, 19),
               checkout_estimated: reservation.end_date,
               reservation_id: reservation.id
             }
@@ -162,7 +161,7 @@ export const columns: ColumnDef<Reservation>[] = [
             payload: {
               room_id: reservation.room_id,
               guest_id: reservation.guest_id,
-              checkout_date: new Date().toISOString(),
+              checkout_date: new Date().toISOString().slice(0, 19),
               total_price: reservation?.total_price | 100,
               reservation_id: reservation.id
             }
@@ -180,11 +179,34 @@ export const columns: ColumnDef<Reservation>[] = [
         }
       }
 
+      const handleGenerateReport = async () => {
+        try {
+          const { status } = await axios.post('/api/reports/generate-report', {
+            token: '',
+            payload: {
+              reservation_id: reservation.id
+            }
+          })
+
+          if (status !== 200) {
+            toast.error(
+              'Ops! Não foi possível realizar o Relatório final dessa reserva...'
+            )
+            return
+          }
+
+          mutate()
+          setIsCheckoutFeedbackOpen(true)
+        } catch (error) {
+          console.error(error)
+        }
+      }
+
       return (
         <div className="flex gap-2">
-          {!canCheckOut && (
+          {reservation.status === 'PENDING' && (
             <Button
-              className="disabled:bg-neutral-400"
+              className="cursor-pointer disabled:bg-neutral-400"
               disabled={!canCheckIn || reservation.status !== 'PENDING'}
               onClick={handleCheckIn}
               size="sm"
@@ -194,9 +216,27 @@ export const columns: ColumnDef<Reservation>[] = [
             </Button>
           )}
 
-          {canCheckOut && (
-            <Button onClick={handleCheckOut} size="sm" variant="default">
+          {reservation.status === 'ACTIVE' && (
+            <Button
+              className="cursor-pointer"
+              disabled={!canCheckOut}
+              onClick={handleCheckOut}
+              size="sm"
+              variant="default"
+            >
               Fazer Check-out
+            </Button>
+          )}
+
+          {reservation.status === 'FINISHED' && (
+            <Button
+              className="bg-green-600 transition-all duration-300 hover:bg-green-600 hover:brightness-110 disabled:bg-green-50"
+              disabled={reservation.status !== 'FINISHED'}
+              onClick={handleGenerateReport}
+              size="sm"
+              variant="default"
+            >
+              Gerar Relatório
             </Button>
           )}
 
@@ -248,15 +288,19 @@ export const ReservationsTable = ({ data }: { data: Reservation[] }) => {
     <div className="-mt-4 w-full">
       <div className="flex items-center py-4">
         <Input
+          onChange={e =>
+            table.getColumn('guest_name')?.setFilterValue(e.target.value)
+          }
+          value={
+            (table.getColumn('guest_name')?.getFilterValue() ?? '') as string
+          }
           className="max-w-sm"
-          onChange={e => table.getColumn('id')?.setFilterValue(e.target.value)}
-          placeholder="Filter by User ID..."
-          value={(table.getColumn('id')?.getFilterValue() ?? '') as string}
+          placeholder="Filtrar por nome do hóspede"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className="ml-auto" variant="outline">
-              Columns
+              Colunas
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -316,7 +360,7 @@ export const ReservationsTable = ({ data }: { data: Reservation[] }) => {
                   className="h-24 text-center"
                   colSpan={columns.length}
                 >
-                  No reservations found.
+                  Nenhuma reserva foi encontrada.
                 </TableCell>
               </TableRow>
             )}
@@ -325,8 +369,8 @@ export const ReservationsTable = ({ data }: { data: Reservation[] }) => {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="text-muted-foreground flex-1 text-sm">
-          {table.getFilteredSelectedRowModel().rows.length} of{' '}
-          {table.getFilteredRowModel().rows.length} selected.
+          {table.getFilteredSelectedRowModel().rows.length} de{' '}
+          {table.getFilteredRowModel().rows.length} selecionado(s).
         </div>
         <div className="space-x-2">
           <Button
@@ -335,7 +379,7 @@ export const ReservationsTable = ({ data }: { data: Reservation[] }) => {
             size="sm"
             variant="outline"
           >
-            Previous
+            Anterior
           </Button>
           <Button
             disabled={!table.getCanNextPage()}
@@ -343,7 +387,7 @@ export const ReservationsTable = ({ data }: { data: Reservation[] }) => {
             size="sm"
             variant="outline"
           >
-            Next
+            Próximo
           </Button>
         </div>
       </div>

@@ -104,8 +104,12 @@ const data = {
           url: '/realizar-reserva'
         },
         {
-          title: 'Todos Checkins',
+          title: 'Últimos Checkins',
           url: '/checkins'
+        },
+        {
+          title: 'Últimos Checkouts',
+          url: '/checkouts'
         },
         {
           title: 'Cancelamentos',

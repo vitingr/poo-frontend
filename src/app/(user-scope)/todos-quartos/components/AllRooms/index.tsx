@@ -1,15 +1,17 @@
+'use client'
+
 import type { FC } from 'react'
 
-import { motor } from '@/instances/motor'
+import { useGetGroupedHotelRooms } from '@/hooks/swr/useGetGroupedHotelRooms'
 
 import { RoomCard } from '../RoomCard'
 
-export const AllRooms: FC = async () => {
-  const { data } = await motor.hotelRooms.getGroupedHotelRooms({ token: '' })
+export const AllRooms: FC = () => {
+  const { rooms } = useGetGroupedHotelRooms()
 
   return (
     <section className="flex w-full flex-col gap-12 px-3 py-10 sm:px-4 md:px-6 lg:p-8 lg:py-12 xl:gap-16 xl:p-12">
-      {data.map(({ floor, rooms }) => (
+      {rooms.map(({ floor, rooms }) => (
         <div
           className="flex w-full flex-col gap-6 xl:gap-8"
           key={`floor-${floor}`}
@@ -20,7 +22,7 @@ export const AllRooms: FC = async () => {
               ({rooms.length} quartos)
             </span>
           </h2>
-          <div className="grid h-auto w-full items-stretch gap-x-6 gap-y-8 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+          <div className="grid h-auto w-full items-stretch gap-x-6 gap-y-8 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 xl:gap-y-12 2xl:grid-cols-5">
             {rooms.map((room, index) => (
               <RoomCard key={`${room.room_code}-${index}`} room={room} />
             ))}

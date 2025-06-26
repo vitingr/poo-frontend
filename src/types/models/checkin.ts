@@ -5,5 +5,6 @@ export interface Checkin {
   guest_name?: string
   id: string
   reservation_id: string
+  room_code?: string
   room_id: string
 }

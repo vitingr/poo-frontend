@@ -19,13 +19,24 @@ export const RoomCard: FC<RoomCardProps> = async ({ room }) => {
       </figure>
       <div className="flex w-full flex-col gap-3 rounded-b-md bg-white px-4 py-6">
         <div className="flex items-center gap-3">
-          {room.room_type === 'DELUXE' ? (
+          {room.room_type === 'DELUXE' && (
             <span className="-ml-1 w-fit rounded-md bg-amber-50 px-3 py-0.5 text-center text-[10px] text-amber-500 uppercase">
               Deluxe
             </span>
-          ) : (
-            <span className="-ml-1 w-fit rounded-md bg-slate-50 px-3 py-0.5 text-center text-[10px] text-slate-500 uppercase">
-              Standard
+          )}
+          {room.room_type === 'DOUBLE' && (
+            <span className="-ml-1 w-fit rounded-md bg-pink-50 px-3 py-0.5 text-center text-[10px] text-pink-500 uppercase">
+              Double
+            </span>
+          )}
+          {room.room_type === 'SINGLE' && (
+            <span className="-ml-1 w-fit rounded-md bg-emerald-50 px-3 py-0.5 text-center text-[10px] text-emerald-500 uppercase">
+              Single
+            </span>
+          )}
+          {room.room_type === 'SUITE' && (
+            <span className="-ml-1 w-fit rounded-md bg-purple-50 px-3 py-0.5 text-center text-[10px] text-purple-500 uppercase">
+              Suite
             </span>
           )}
           {!room.is_available ? (

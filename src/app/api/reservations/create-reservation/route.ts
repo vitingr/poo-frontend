@@ -20,6 +20,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     if (payload.reservationType === 'instant-booking') {
+      console.log('mandando checkin')
       const { status: reservationStatus } = await motor.checkins.createCheckin({
         payload: {
           room_id: payload.room_id,

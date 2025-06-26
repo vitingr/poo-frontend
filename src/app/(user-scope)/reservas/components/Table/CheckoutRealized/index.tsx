@@ -11,9 +11,11 @@ export const CheckoutRealized: FC<CheckoutRealizedProps> = ({
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <div className="flex w-full max-w-md flex-col items-center gap-8 rounded-md bg-white px-8 pt-12 pb-8">
-        <article>
-          <h2>Checkout Realizado com sucesso!</h2>
-          <p>
+        <article className="flex flex-col gap-1">
+          <h2 className="text-2xl font-semibold">
+            Checkout Realizado com sucesso!
+          </h2>
+          <p className="text-center text-sm text-neutral-500">
             Tudo pronto, seu checkout referente à essa reserva com devidamente
             realizado.
           </p>

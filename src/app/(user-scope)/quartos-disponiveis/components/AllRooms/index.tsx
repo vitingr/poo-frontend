@@ -20,7 +20,7 @@ export const AllRooms: FC = async () => {
               ({rooms.length} quartos)
             </span>
           </h2>
-          <div className="grid h-auto w-full items-stretch gap-x-6 gap-y-8 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+          <div className="grid h-auto w-full items-stretch gap-x-6 gap-y-8 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 xl:gap-y-12 2xl:grid-cols-5">
             {rooms.map((room, index) => (
               <RoomCard key={`${room.room_code}-${index}`} room={room} />
             ))}
