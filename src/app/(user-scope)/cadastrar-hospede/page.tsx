@@ -13,9 +13,20 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { getUserSession } from '@/utils/auth/getUserSession'
+import { getMetaData } from '@/utils/seo/getMetadata'
 
 import { AppSidebar } from '../../../components/common/Sidebar'
 import { CreateGuestForm } from './components/CreateGuestForm'
+
+export async function generateMetadata() {
+  return getMetaData({
+    title: 'Cadastrar Hóspede | POO IFSP',
+    description:
+      'Bem-Vindo à plataforma de gerenciamento de hóteis da matéria de POO II do IFSP Capivari',
+    image: '',
+    url: '/cadastrar-hospede'
+  })
+}
 
 const Page: NextPage = async () => {
   const user = await getUserSession()

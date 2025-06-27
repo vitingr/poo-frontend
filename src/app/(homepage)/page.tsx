@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import { redirect } from 'next/navigation'
 
 import { Footer } from '@/components/common/Footer'
 import {
@@ -11,11 +12,29 @@ import {
 } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { getUserSession } from '@/utils/auth/getUserSession'
+import { getMetaData } from '@/utils/seo/getMetadata'
 
 import { AppSidebar } from '../../components/common/Sidebar'
 import { Dashboards } from './components/Dashboards'
 
+export async function generateMetadata() {
+  return getMetaData({
+    title: 'Dashboards | POO IFSP',
+    description:
+      'Bem-Vindo à plataforma de gerenciamento de hóteis da matéria de POO II do IFSP Capivari',
+    image: '',
+    url: '/'
+  })
+}
+
 const Page: NextPage = async () => {
+  const user = await getUserSession()
+
+  if (!user) {
+    redirect('/login')
+  }
+
   return (
     <>
       <SidebarProvider>

@@ -1,9 +1,11 @@
 'use client'
 
+import axios from 'axios'
 import { ChevronDown, MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
 import * as React from 'react'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -25,6 +27,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
+import { useGetAllGuests } from '@/hooks/swr/useGetAllGuests'
 import type { Guest } from '@/types/models/guest'
 import type {
   ColumnDef,
@@ -117,7 +120,8 @@ export const guestColumns: ColumnDef<Guest>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const guest = row.original
-      const [isOpen, setIsOpen] = useState(false)
+      const [isOpen, setIsOpen] = useState<boolean>(false)
+      const { mutate } = useGetAllGuests()
 
       return (
         <>
@@ -130,17 +134,84 @@ export const guestColumns: ColumnDef<Guest>[] = [
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Ações</DropdownMenuLabel>
               <DropdownMenuItem
+                onClick={() => {
+                  toast.success('Email copiado para área de transferências')
+                  navigator.clipboard.writeText(guest.email)
+                }}
                 className="cursor-pointer"
-                onClick={() => navigator.clipboard.writeText(guest.email)}
               >
                 Copiar email
               </DropdownMenuItem>
               <DropdownMenuItem
+                onClick={() => {
+                  toast.success('Documento copiado para área de transferências')
+                  navigator.clipboard.writeText(guest.document)
+                }}
                 className="cursor-pointer"
-                onClick={() => navigator.clipboard.writeText(guest.document)}
               >
                 Copiar documento
               </DropdownMenuItem>
+              {guest.is_active ? (
+                <DropdownMenuItem
+                  onClick={async () => {
+                    try {
+                      const { status } = await axios.post(
+                        '/api/guests/update-guest',
+                        {
+                          payload: {
+                            is_active: false
+                          },
+                          token: '',
+                          guestId: guest.id
+                        }
+                      )
+
+                      if (status !== 200) {
+                        toast.error(
+                          'Não foi possível atualizar o status do hóspede...'
+                        )
+                        return
+                      }
+
+                      await mutate()
+                    } catch (error) {
+                      console.error(error)
+                    }
+                  }}
+                >
+                  Desativar Hóspede
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem
+                  onClick={async () => {
+                    try {
+                      const { status } = await axios.post(
+                        '/api/guests/update-guest',
+                        {
+                          payload: {
+                            is_active: true
+                          },
+                          token: '',
+                          guestId: guest.id
+                        }
+                      )
+
+                      if (status !== 200) {
+                        toast.error(
+                          'Não foi possível atualizar o status do hóspede...'
+                        )
+                        return
+                      }
+
+                      await mutate()
+                    } catch (error) {
+                      console.error(error)
+                    }
+                  }}
+                >
+                  Ativar Hóspede
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem className="cursor-pointer">
                 <Link href={`tel:+${guest.phone}`}>Entrar em contato</Link>
               </DropdownMenuItem>

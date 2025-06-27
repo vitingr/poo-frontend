@@ -13,9 +13,20 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { getUserSession } from '@/utils/auth/getUserSession'
+import { getMetaData } from '@/utils/seo/getMetadata'
 
 import { AppSidebar } from '../../../components/common/Sidebar'
 import { AllRooms } from './components/AllRooms'
+
+export async function generateMetadata() {
+  return getMetaData({
+    title: 'Quartos em Uso | POO IFSP',
+    description:
+      'Bem-Vindo à plataforma de gerenciamento de hóteis da matéria de POO II do IFSP Capivari',
+    image: '',
+    url: '/quartos-em-uso'
+  })
+}
 
 const Page: NextPage = async () => {
   const user = await getUserSession()

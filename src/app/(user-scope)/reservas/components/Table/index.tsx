@@ -100,7 +100,7 @@ export const columns: ColumnDef<Reservation>[] = [
       const status = row.getValue('status')
       return (
         <div
-          className={`w-fit rounded-sm px-2 py-1.5 text-center capitalize ${status === 'ACTIVE' ? 'bg-blue-50 text-blue-500' : status === 'FINISHED' ? 'bg-green-50 text-green-800' : status === 'CANCELED' ? 'bg-red-50 text-red-800' : 'bg-neutral-100 text-gray-500'}`}
+          className={`w-fit rounded-sm px-2 py-1.5 text-center capitalize ${status === 'ACTIVE' ? 'bg-indigo-50 text-indigo-500' : status === 'FINISHED' ? 'bg-neutral-100 text-gray-500' : status === 'CANCELED' ? 'bg-blue-50 text-blue-400' : 'bg-neutral-100 text-gray-500'}`}
         >
           {String(status)}
         </div>
@@ -234,7 +234,7 @@ export const columns: ColumnDef<Reservation>[] = [
 
           {reservation.status === 'FINISHED' && (
             <Button
-              className="bg-green-600 transition-all duration-300 hover:bg-green-600 hover:brightness-110 disabled:bg-green-50"
+              className="bg-indigo-500 text-white hover:brightness-110 disabled:bg-green-50"
               disabled={reservation.status !== 'FINISHED'}
               onClick={handleGenerateReport}
               size="sm"

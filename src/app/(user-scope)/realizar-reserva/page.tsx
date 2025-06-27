@@ -14,8 +14,19 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { getUserSession } from '@/utils/auth/getUserSession'
+import { getMetaData } from '@/utils/seo/getMetadata'
 
 import { ReservationType } from './components/ReservationType'
+
+export async function generateMetadata() {
+  return getMetaData({
+    title: 'Realizar Reserva | POO IFSP',
+    description:
+      'Bem-Vindo à plataforma de gerenciamento de hóteis da matéria de POO II do IFSP Capivari',
+    image: '',
+    url: '/realizar-reserva'
+  })
+}
 
 const Page: NextPage = async () => {
   const user = await getUserSession()
