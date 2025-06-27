@@ -7,6 +7,8 @@ import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 
 import { Logo } from '@/assets/brands/Logo'
+import { InputField } from '@/components/toolkit/Fields/InputField'
+import { Spin } from '@/components/toolkit/Spin'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { loginSchema } from './schema'
@@ -14,8 +16,9 @@ import type { LoginInputs } from './types'
 
 export const LoginForm: FC = () => {
   const {
+    register,
     handleSubmit,
-    formState: {}
+    formState: { isSubmitting }
   } = useForm<LoginInputs>({
     resolver: zodResolver(loginSchema)
   })
@@ -56,23 +59,43 @@ export const LoginForm: FC = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex flex-col gap-1">
-              <label className="text-sm text-neutral-500">Email</label>
+              {/* <label className="text-sm text-neutral-500">Email</label>
               <input
                 className="w-full rounded-md border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-sm text-neutral-600 transition-all duration-300 outline-none focus:border-blue-500"
                 placeholder="Email do seu usuário"
                 type="email"
+              /> */}
+              <InputField
+                id="email"
+                label="Email"
+                maxLength={60}
+                minLength={1}
+                placeholder="Email do seu usuário"
+                type="email"
+                {...register('email')}
+                variant="secondary"
               />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="text-sm text-neutral-500">Senha</label>
+              {/* <label className="text-sm text-neutral-500">Senha</label>
               <input
                 className="w-full rounded-md border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-sm text-neutral-600 transition-all duration-300 outline-none focus:border-blue-500"
                 placeholder="Senha referente ao seu email"
                 type="text"
+              /> */}
+              <InputField
+                id="password"
+                label="Senha"
+                maxLength={6}
+                minLength={1}
+                placeholder="Senha referente ao seu email"
+                type="text"
+                {...register('password')}
+                variant="secondary"
               />
             </div>
-            <button className="mt-3 w-full cursor-pointer rounded-md bg-indigo-600 px-3 py-2 text-center text-white transition-all duration-300 hover:brightness-110">
-              Entrar
+            <button className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-md bg-indigo-600 px-3 py-2 text-center text-white transition-all duration-300 hover:brightness-110">
+              Entrar {isSubmitting ? <Spin size="medium" /> : null}
             </button>
           </form>
           <p className="text-center text-[13px] text-neutral-500">

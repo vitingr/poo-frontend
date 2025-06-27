@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import { redirect } from 'next/navigation'
 
 import { Footer } from '@/components/common/Footer'
 import {
@@ -11,11 +12,18 @@ import {
 } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { getUserSession } from '@/utils/auth/getUserSession'
 
 import { AppSidebar } from '../../../components/common/Sidebar'
 import { AllReservations } from './components/AllReservations'
 
 const Page: NextPage = async () => {
+  const user = await getUserSession()
+
+  if (!user) {
+    redirect('/login')
+  }
+
   return (
     <>
       <SidebarProvider>

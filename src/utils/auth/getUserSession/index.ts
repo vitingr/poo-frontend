@@ -1,7 +1,7 @@
 import type { User as NextAuthUser } from 'next-auth'
 import { getServerSession } from 'next-auth'
 
-import { authOptions } from '@/libs/auth'
+import { authOptions } from '@/lib/auth'
 import type { User } from '@/types/auth/user'
 
 export const getUserSession = async (): Promise<NextAuthUser & User> => {
