@@ -26,7 +26,7 @@ export const RoomsInMaintenance: FC = () => {
                     alt={room.hotel_code}
                     className="h-[200px] w-full rounded-t-md object-cover brightness-50 transition-all duration-300"
                     height={1080}
-                    src={room.image}
+                    src="https://plus.unsplash.com/premium_photo-1661964402307-02267d1423f5?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG90ZWwlMjByb29tfGVufDB8fDB8fHww"
                     width={1920}
                   />
                 </figure>

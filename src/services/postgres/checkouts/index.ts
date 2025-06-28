@@ -27,7 +27,11 @@ export class Checkouts {
       })
     } catch (error) {
       console.error({ createCheckoutErrMessage: error.message })
-      return { status: 500 }
+      console.error({ createCheckinErrMessage: error.message })
+      return {
+        status: error?.response?.status ?? 500,
+        data: error?.response?.data ?? { message: 'Erro inesperado' }
+      }
     }
   }
 

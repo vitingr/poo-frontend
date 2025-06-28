@@ -234,7 +234,7 @@ export const columns: ColumnDef<Reservation>[] = [
 
           {reservation.status === 'FINISHED' && (
             <Button
-              className="bg-indigo-500 text-white hover:brightness-110 disabled:bg-green-50"
+              className="bg-indigo-500 text-white hover:bg-indigo-600 hover:brightness-110 disabled:bg-green-50"
               disabled={reservation.status !== 'FINISHED'}
               onClick={handleGenerateReport}
               size="sm"

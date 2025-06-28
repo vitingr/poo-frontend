@@ -13,7 +13,7 @@ export const RoomCard: FC<RoomCardProps> = async ({ room }) => {
           alt={room.room_code}
           className="h-[220px] w-full rounded-t-md object-cover transition-all duration-300 group-hover:brightness-95"
           height={1080}
-          src={room.room_image}
+          src="https://plus.unsplash.com/premium_photo-1661964402307-02267d1423f5?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG90ZWwlMjByb29tfGVufDB8fDB8fHww"
           width={1920}
         />
       </figure>

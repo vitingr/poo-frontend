@@ -89,7 +89,7 @@ export const LoginForm: FC = () => {
                 maxLength={6}
                 minLength={1}
                 placeholder="Senha referente ao seu email"
-                type="text"
+                type="password"
                 {...register('password')}
                 variant="secondary"
               />
