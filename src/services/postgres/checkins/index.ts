@@ -29,7 +29,9 @@ export class Checkins {
       console.error({ createCheckinErrMessage: error.message })
       return {
         status: error?.response?.status ?? 500,
-        data: error?.response?.data ?? { message: 'Erro inesperado' }
+        data: error?.response?.data ?? {
+          message: 'Cannot create a new Checkin.'
+        }
       }
     }
   }

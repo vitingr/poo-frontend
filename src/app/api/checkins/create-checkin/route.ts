@@ -7,14 +7,14 @@ export const POST = async (req: NextRequest) => {
   try {
     const { payload, token } = await req.json()
 
-    const { status } = await motor.checkins.createCheckin({
+    const { status, data } = await motor.checkins.createCheckin({
       payload,
       token
     })
 
     if (status !== 201) {
       return NextResponse.json(
-        { message: 'Cannot create a new Checkin.' },
+        { message: data?.message || 'Cannot create a new Checkin.' },
         { status: 500 }
       )
     }
